@@ -1,56 +1,66 @@
-<?php include 'functions/category-functions.php'; ?>
+<?php
+include 'functions/category-functions.php';
+include 'functions/pagination.php';
 
-
+?>
 
 <div class="container my-7" style="max-width: 100%; width: 120%;">
     <h1 class="text-left">Category Management</h1>
-
     <br>
 
     <div class="row mb-4 align-items-center">
-    <!-- Show Entries Dropdown -->
-    <div class="col-md-3">
-        <form method="GET" action="index_admin.php?page=category">
-            <div class="form-inline">
-                <label for="limit" class="mr-2">Show</label>
-                <select name="limit" class="form-control">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                </select>
-                <label for="limit" class="ml-2">entries</label>
-            </div>
-        </form>
-    </div>
+        <!-- Show Entries Dropdown -->
+        <div class="col-md-3">
+            <form method="GET" action="index_admin.php">
+                <input type="hidden" name="page" value="category">
+                <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
+                <div class="form-inline">
+                    <label for="limit" class="mr-2">Show</label>
+                    <select name="limit" class="form-control" onchange="this.form.submit()">
+                    <?php foreach (array(5, 10, 20, 50) as $option): ?>
+                    <option value="<?= $option ?>" <?= $limit == $option ? 'selected' : '' ?>>
+                        <?= $option ?>
+                    </option>
+                <?php endforeach; ?>
 
-    <!-- Search Bar -->
-    <div class="col-md-5">
-        <form method="GET" action="index_admin.php?page=category">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search Categories...">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    </select>
+                    <label class="ml-2">entries</label>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="col-md-5">
+            <form method="GET" action="index_admin.php">
+                <input type="hidden" name="page" value="category">
+                <input type="hidden" name="limit" value="<?= $limit ?>">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" 
+                           placeholder="Search Categories..." 
+                           value="<?= htmlspecialchars($search) ?>">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Print Button -->
+        <div class="col-md-2 text-right">
+            <button class="btn btn-secondary btn-sm" onclick="window.print()">
+                <i class="fas fa-print"></i> Print
+            </button>
+        </div>
+
+        <!-- Add New Category Button -->
+        <div class="col-md-2 text-right">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">
+                Add New Category
+            </button>
+        </div>
     </div>
-
-    <!-- Print Button -->
-    <div class="col-md-2 text-right">
-            <button class="btn btn-secondary btn-sm" onclick="printTable()">
-            <i class="fas fa-print"></i> Print
-        </button>
-
-    </div>
-
-    <!-- Add New Category Button -->
-    <div class="col-md-2 text-right">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">Add New Category</button>
-    </div>
-</div>
-
-
     <hr>
+
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead>
@@ -60,108 +70,95 @@
                     <th>Created At</th>
                     <th>Updated At</th>
                     <th class="text-center">Actions</th>
-
                 </tr>
             </thead>
             <tbody>
-                <?php while ($category = mysqli_fetch_assoc($result)): ?>
+                <?php if(mysqli_num_rows($result) > 0): ?>
+                    <?php while ($category = mysqli_fetch_assoc($result)): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($category['category_name']) ?></td>
+                            <td><?= htmlspecialchars($category['category_description']) ?></td>
+                            <td><?= htmlspecialchars($category['created_at']) ?></td>
+                            <td><?= htmlspecialchars($category['updated_at']) ?></td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-info btn-sm" 
+                                        data-toggle="modal" data-target="#viewCategoryModal"
+                                        onclick="viewCategory(<?= htmlspecialchars(json_encode($category), ENT_QUOTES) ?>)">
+                                        View
+                                    </button>
+
+                                    <button class="btn btn-warning btn-sm"
+                                        data-toggle="modal" data-target="#editCategoryModal"
+                                        onclick="openEditForm(<?= htmlspecialchars(json_encode($category), ENT_QUOTES) ?>)">
+                                        Edit
+                                    </button>
+
+                                    <button type="button" class="btn btn-danger btn-sm" 
+                                        data-toggle="modal" data-target="#deleteCategoryModal"
+                                        onclick="setDeleteData(<?= $category['category_id'] ?>, <?= htmlspecialchars(json_encode($category['category_name']), ENT_QUOTES) ?>)">
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
                     <tr>
-                        <td><?php echo $category['category_name']; ?></td>
-                        <td><?php echo $category['category_description']; ?></td>
-                        <td><?php echo $category['created_at']; ?></td>
-                        <td><?php echo $category['updated_at']; ?></td>
-                        <td class="text-center">
-                            
-                        <div class="btn-group" role="group">
-                            <!-- View Button -->
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewCategoryModal" 
-                                onclick="viewCategory('<?php echo $category['category_name']; ?>', '<?php echo $category['category_description']; ?>', '<?php echo $category['created_at']; ?>', '<?php echo $category['updated_at']; ?>')" 
-                                style="margin: 0 5px;">
-                                View
-                            </button>
-
-                            <!-- Edit Button -->
-                            <button onclick="openEditForm(<?php echo $category['category_id']; ?>, '<?php echo $category['category_name']; ?>', '<?php echo $category['category_description']; ?>')" 
-                                class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCategoryModal"
-                                style="margin: 0 5px;">
-                                Edit
-                            </button>
-
-                            <!-- Delete Button -->
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCategoryModal" 
-                                onclick="setDeleteData(<?php echo $category['category_id']; ?>, '<?php echo $category['category_name']; ?>')" 
-                                style="margin: 0 5px;">
-                                Delete
-                            </button>
-                        </div>
-                    </td>
-
-
-
+                        <td colspan="5" class="text-center">No categories found</td>
                     </tr>
-                <?php endwhile; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
-                <nav>
-                <ul class="pagination justify-content-end">
-                    <!-- Previous Page Link -->
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
 
-                    <!-- Page Numbers -->
-                    <li class="page-item active">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
+    <?php if ($totalPages > 1): ?>
+    <nav>
+        <ul class="pagination justify-content-end">
+            <!-- Previous Page Link -->
+            <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+                <a class="page-link" href="index_admin.php?page=category&limit=<?= $limit ?>&search=<?= urlencode($search) ?>&page=<?= max(1, $page - 1) ?>" aria-label="Previous">
+                    &laquo;
+                </a>
+            </li>
 
-                    <!-- Next Page Link -->
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-                 </nav>
+            <!-- Page Numbers -->
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                    <a class="page-link" href="index_admin.php?page=category&limit=<?= $limit ?>&search=<?= urlencode($search) ?>&page=<?= $i ?>">
+                        <?= $i ?>
+                    </a>
+                </li>
+            <?php endfor; ?>
+
+            <!-- Next Page Link -->
+            <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">
+                <a class="page-link" href="index_admin.php?page=category&limit=<?= $limit ?>&search=<?= urlencode($search) ?>&page=<?= min($totalPages, $page + 1) ?>" aria-label="Next">
+                    &raquo;
+                </a>
+            </li>
+        </ul>
+    </nav>
+<?php endif; ?>
 
 
     <?php include 'modals/category-modal.php'; ?>
 </div>
 
+<?php include 'js-functions/js-category.php'; ?>
 
-
-<script>
-    function openEditForm(id, name, description) {
-        document.getElementById('edit-category-id').value = id;
-        document.getElementById('edit-category-name').value = name;
-        document.getElementById('edit-category-description').value = description;
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        .table-responsive, .table-responsive * {
+            visibility: visible;
+        }
+        .table-responsive {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
     }
-
-    function setDeleteData(id, name) {
-    // Set the category ID in the hidden input field
-    document.getElementById('delete-category-id').value = id;
-    
-    // Set the category name in the input field (readonly)
-    document.getElementById('category-name').value = name;
-}
-
-
-
-
-function viewCategory(name, description, createdAt, updatedAt) {
-    document.getElementById('view-category-name').innerText = name;
-    document.getElementById('view-category-description').innerText = description;
-    document.getElementById('view-category-created').innerText = createdAt;
-    document.getElementById('view-category-updated').innerText = updatedAt;
-}
-
-</script>
-
+</style>

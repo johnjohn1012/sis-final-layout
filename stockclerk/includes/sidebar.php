@@ -1,3 +1,7 @@
+<!-- Include Bootstrap CDN -->
+
+
+
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <a href="index_admin.php" class="app-brand-link">
@@ -20,13 +24,13 @@
     </li>
 
     <!-- Stock Management Section -->
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">Stock Management</span></li>
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Inventory Management</span></li>
 
     <!-- Stock Management Dropdown -->
     <li class="menu-item <?php echo (isset($_GET['page']) && in_array($_GET['page'], ['category', 'products', 'ingredients', 'suppliers', 'purchase_orders', 'receiving_list', 'back_orders','return_orders'])) ? 'open' : ''; ?>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-package"></i>
-        <div>Stock Management</div>
+        <div>Inventory Management</div>
       </a>
 
       <ul class="menu-sub">
@@ -148,3 +152,28 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+
+
+        <!-- Inside includes/header.php or a similar file -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+          // Prevent right-click and F12 shortcuts
+          document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+          });
+
+          document.addEventListener("keydown", function (e) {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "i"))) {
+              e.preventDefault();
+              Swal.fire({
+                icon: 'warning',
+                title: 'Access Denied',
+                text: 'This page is protected from inspection.',
+                confirmButtonText: 'OK'
+              });
+            }
+          });  
+
+          
+        </script>

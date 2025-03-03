@@ -4,7 +4,7 @@ include('connection.php');
 
 
 // Fetch categories from the database
-$query = "SELECT * FROM tbl_categories ORDER BY created_at DESC";
+$query = "SELECT * FROM tbl_categories ORDER BY created_at ASC";
 $result = mysqli_query($conn, $query);
 
 // Add category
@@ -57,7 +57,23 @@ if (isset($_POST['delete'])) {
     $category_id = $_POST['delete'];
     $query_delete = "DELETE FROM tbl_categories WHERE category_id = $category_id";
     mysqli_query($conn, $query_delete);
-    echo "<script>alert('Deleted successfully'); window.location.href = 'index_admin.php?page=category';</script>";
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+    echo "<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Deleted Successfully',
+        text: 'The category has been deleted.',
+        confirmButtonText: 'Okay'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = 'index_admin.php?page=category';
+        }
+    });
+  </script>";
+
     exit; // Stop further script execution after redirection
 }
 ?>
+
+
+
