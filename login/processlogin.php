@@ -60,6 +60,58 @@ session_start(); // Start session to manage user roles
 
 <?php
 if (isset($_POST['btnlogin'])) {
+    // CAPTCHA verification
+    $captcha = $_POST['g-recaptcha-response'] ?? '';
+    if (!$captcha) {
+        echo "<script>
+                Swal.fire({
+                    title: 'CAPTCHA Required!',
+                    text: 'Please complete the CAPTCHA verification.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then(function() {
+                    window.location = 'index.php';
+                });
+              </script>";
+        exit();
+    }
+
+    // Verify CAPTCHA with Google
+    $secretKey = "6LdlLtcqAAAAAEWUO6AFonbNhzNzrkR9cuxqPkZD"; // Your secret key
+    $url = 'https://www.google.com/recaptcha/api/siteverify';
+    $data = [
+        'secret' => $secretKey,
+        'response' => $captcha,
+        'remoteip' => $_SERVER['REMOTE_ADDR']
+    ];
+
+    $options = [
+        'http' => [
+            'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method' => 'POST',
+            'content' => http_build_query($data)
+        ]
+    ];
+
+    $context = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
+    $result = json_decode($response);
+
+    if (!$result->success) {
+        echo "<script>
+                Swal.fire({
+                    title: 'CAPTCHA Failed!',
+                    text: 'Invalid CAPTCHA. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then(function() {
+                    window.location = 'index.php';
+                });
+              </script>";
+        exit();
+    }
+
+    // Continue with existing login checks
     $users = trim($_POST['user']);
     $upass = trim($_POST['password']);
     $h_upass = sha1($upass);
