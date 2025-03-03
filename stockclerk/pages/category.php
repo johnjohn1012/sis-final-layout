@@ -104,7 +104,7 @@
             </nav>
 
 
-    <?php include 'modals/modal.php'; ?>
+    <?php include 'modals/category-modal.php'; ?>
 </div>
 
 <!-- Bootstrap JS and dependencies -->

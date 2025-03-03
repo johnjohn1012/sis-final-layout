@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 02, 2025 at 05:01 PM
+-- Host: localhost:3307
+-- Generation Time: Mar 03, 2025 at 03:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -57,7 +57,8 @@ CREATE TABLE `tbl_categories` (
 INSERT INTO `tbl_categories` (`category_id`, `category_name`, `category_description`, `created_at`, `updated_at`) VALUES
 (6, 'chronological_database_sis', 'dsadas', '2025-03-02 14:38:12', '2025-03-02 14:38:12'),
 (7, 'dasdasdasdas', 'dasd', '2025-03-02 14:42:33', '2025-03-02 14:42:38'),
-(8, 'dasddasdas', 'dasd', '2025-03-02 15:07:41', '2025-03-02 15:07:46');
+(8, 'dasddasdas', 'dasd', '2025-03-02 15:07:41', '2025-03-02 15:07:46'),
+(9, 'fsd', 'dsad', '2025-03-03 02:09:19', '2025-03-03 02:09:19');
 
 -- --------------------------------------------------------
 
@@ -184,13 +185,12 @@ CREATE TABLE `tbl_pos_order_items` (
 CREATE TABLE `tbl_products` (
   `product_id` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
-  `product_type` enum('milk_tea','coffee','pizza') NOT NULL,
   `product_selling_price` decimal(10,2) DEFAULT NULL,
   `product_stock_quantity` int(11) DEFAULT 0,
   `product_reorder_level` int(11) DEFAULT 0,
-  `product_category_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
   `product_created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `stock_clerk_id` int(11) DEFAULT NULL
+  `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -208,8 +208,8 @@ CREATE TABLE `tbl_purchase_items` (
   `quantity_received` decimal(10,2) DEFAULT 0.00,
   `back_ordered_quantity` decimal(10,2) DEFAULT 0.00,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `stock_clerk_id` int(11) DEFAULT NULL
-) ;
+  `employee_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -224,7 +224,7 @@ CREATE TABLE `tbl_purchase_order_list` (
   `status` enum('ordered','received','partially_received','back_ordered') NOT NULL,
   `purchase_expected_delivery_date` date DEFAULT NULL,
   `purchase_created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `stock_clerk_id` int(11) DEFAULT NULL
+  `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -307,6 +307,13 @@ CREATE TABLE `tbl_suppliers` (
   `email` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_suppliers`
+--
+
+INSERT INTO `tbl_suppliers` (`supplier_id`, `supplier_name`, `contact_person`, `address`, `phone`, `email`, `created_at`) VALUES
+(1, 'dsadzxcxzczx', '432', 'dsadasd', '4324', 'sadsa@fddas', '2025-03-03 02:11:23');
 
 -- --------------------------------------------------------
 
@@ -418,8 +425,8 @@ ALTER TABLE `tbl_pos_order_items`
 --
 ALTER TABLE `tbl_products`
   ADD PRIMARY KEY (`product_id`),
-  ADD KEY `product_category_id` (`product_category_id`),
-  ADD KEY `stock_clerk_id` (`stock_clerk_id`);
+  ADD KEY `product_category_id` (`category_id`),
+  ADD KEY `stock_clerk_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_purchase_items`
@@ -429,7 +436,7 @@ ALTER TABLE `tbl_purchase_items`
   ADD KEY `purchase_order_id` (`purchase_order_id`),
   ADD KEY `raw_ingredient_id` (`raw_ingredient_id`),
   ADD KEY `product_id` (`product_id`),
-  ADD KEY `stock_clerk_id` (`stock_clerk_id`);
+  ADD KEY `stock_clerk_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_purchase_order_list`
@@ -437,7 +444,7 @@ ALTER TABLE `tbl_purchase_items`
 ALTER TABLE `tbl_purchase_order_list`
   ADD PRIMARY KEY (`purchase_order_id`),
   ADD KEY `supplier_id` (`supplier_id`),
-  ADD KEY `stock_clerk_id` (`stock_clerk_id`);
+  ADD KEY `stock_clerk_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_raw_ingredients`
@@ -506,7 +513,7 @@ ALTER TABLE `tbl_back_order_list`
 -- AUTO_INCREMENT for table `tbl_categories`
 --
 ALTER TABLE `tbl_categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_customer`
@@ -596,7 +603,7 @@ ALTER TABLE `tbl_sales`
 -- AUTO_INCREMENT for table `tbl_suppliers`
 --
 ALTER TABLE `tbl_suppliers`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_transaction_log`
@@ -659,8 +666,8 @@ ALTER TABLE `tbl_pos_order_items`
 -- Constraints for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  ADD CONSTRAINT `tbl_products_ibfk_1` FOREIGN KEY (`product_category_id`) REFERENCES `tbl_categories` (`category_id`),
-  ADD CONSTRAINT `tbl_products_ibfk_2` FOREIGN KEY (`stock_clerk_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `tbl_products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `tbl_categories` (`category_id`),
+  ADD CONSTRAINT `tbl_products_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
 
 --
 -- Constraints for table `tbl_purchase_items`
@@ -669,14 +676,14 @@ ALTER TABLE `tbl_purchase_items`
   ADD CONSTRAINT `tbl_purchase_items_ibfk_1` FOREIGN KEY (`purchase_order_id`) REFERENCES `tbl_purchase_order_list` (`purchase_order_id`),
   ADD CONSTRAINT `tbl_purchase_items_ibfk_2` FOREIGN KEY (`raw_ingredient_id`) REFERENCES `tbl_raw_ingredients` (`raw_ingredient_id`),
   ADD CONSTRAINT `tbl_purchase_items_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`),
-  ADD CONSTRAINT `tbl_purchase_items_ibfk_4` FOREIGN KEY (`stock_clerk_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `tbl_purchase_items_ibfk_4` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
 
 --
 -- Constraints for table `tbl_purchase_order_list`
 --
 ALTER TABLE `tbl_purchase_order_list`
   ADD CONSTRAINT `tbl_purchase_order_list_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `tbl_suppliers` (`supplier_id`),
-  ADD CONSTRAINT `tbl_purchase_order_list_ibfk_2` FOREIGN KEY (`stock_clerk_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `tbl_purchase_order_list_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
 
 --
 -- Constraints for table `tbl_raw_ingredients`
