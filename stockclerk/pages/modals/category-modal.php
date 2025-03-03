@@ -79,3 +79,27 @@
         </div>
     </div>
 </div>
+
+
+<!-- View Category Modal -->
+<div class="modal fade" id="viewCategoryModal" tabindex="-1" role="dialog" aria-labelledby="viewCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewCategoryModalLabel">Category Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <p><strong>Category Name:</strong> <span id="view-category-name"></span></p>
+                <p><strong>Description:</strong> <span id="view-category-description"></span></p>
+                <p><strong>Created At:</strong> <span id="view-category-created"></span></p>
+                <p><strong>Updated At:</strong> <span id="view-category-updated"></span></p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

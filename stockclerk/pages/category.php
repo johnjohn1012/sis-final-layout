@@ -52,7 +52,8 @@
                     <th>Description</th>
                     <th>Created At</th>
                     <th>Updated At</th>
-                    <th>Actions</th>
+                    <th class="text-center">Actions</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -62,13 +63,33 @@
                         <td><?php echo $category['category_description']; ?></td>
                         <td><?php echo $category['created_at']; ?></td>
                         <td><?php echo $category['updated_at']; ?></td>
-                        <td>
-                            <!-- Edit and Delete Actions -->
-                            <button onclick="openEditForm(<?php echo $category['category_id']; ?>, '<?php echo $category['category_name']; ?>', '<?php echo $category['category_description']; ?>')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCategoryModal">Edit</button>
+                        <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <!-- View Button -->
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewCategoryModal" 
+                                onclick="viewCategory('<?php echo $category['category_name']; ?>', '<?php echo $category['category_description']; ?>', '<?php echo $category['created_at']; ?>', '<?php echo $category['updated_at']; ?>')" 
+                                style="margin: 0 5px;">
+                                View
+                            </button>
 
-                            <!-- Delete Button to Trigger Modal -->
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCategoryModal" onclick="setDeleteData(<?php echo $category['category_id']; ?>, '<?php echo $category['category_name']; ?>')">Delete</button>
-                        </td>
+                            <!-- Edit Button -->
+                            <button onclick="openEditForm(<?php echo $category['category_id']; ?>, '<?php echo $category['category_name']; ?>', '<?php echo $category['category_description']; ?>')" 
+                                class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCategoryModal"
+                                style="margin: 0 5px;">
+                                Edit
+                            </button>
+
+                            <!-- Delete Button -->
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCategoryModal" 
+                                onclick="setDeleteData(<?php echo $category['category_id']; ?>, '<?php echo $category['category_name']; ?>')" 
+                                style="margin: 0 5px;">
+                                Delete
+                            </button>
+                        </div>
+                    </td>
+
+
+
                     </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -126,6 +147,14 @@
     
     // Set the category name in the input field (readonly)
     document.getElementById('category-name').value = name;
+}
+
+
+function viewCategory(name, description, createdAt, updatedAt) {
+    document.getElementById('view-category-name').innerText = name;
+    document.getElementById('view-category-description').innerText = description;
+    document.getElementById('view-category-created').innerText = createdAt;
+    document.getElementById('view-category-updated').innerText = updatedAt;
 }
 
 </script>
