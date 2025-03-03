@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List with Categories</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container-fluid d-flex">
+
+
+    <div class="container-fluid d-flex" style="max-width: 120vw; width: 110%; margin: 0 auto;">
+
+
         <!-- Sidebar / Navigation -->
         <div class="col-md-2 bg-light p-3">
             <h2>Categories</h2>
@@ -26,20 +23,7 @@
             }
             
             ?>
-            </br>
-            </br>
-            </br>
-            </br>
-            </br>
-            </br>
-            </br>
-            </br>
-            </br>
-            </br>
-            <!-- Logout Button -->
-            <div>
-                <button class="btn btn-danger w-100" onclick="logout()">Logout</button>
-            </div>
+       
         </div>
 
 
@@ -97,10 +81,10 @@
                 <h3>Total: <span id="total">$0.00</span></h3>
             </div>
             <div class="actions mt-3">
-    <button class="btn btn-danger w-100 mb-2" onclick="cancelOrder()">Cancel Order</button>
-    <button class="btn btn-warning w-100 mb-2" onclick="holdOrder()">Hold Order</button>
-    <button class="btn btn-success w-100" onclick="payOrder()">Pay</button>
-    </div>
+        <button class="btn btn-danger w-100 mb-2" onclick="cancelOrder()">Cancel Order</button>
+        <button class="btn btn-warning w-100 mb-2" onclick="holdOrder()">Hold Order</button>
+        <button class="btn btn-success w-100" onclick="payOrder()">Pay</button>
+        </div>
 
 
         </div>
@@ -216,5 +200,3 @@
             window.location.href = 'http://localhost/sis-final-layout/login/index.php';
         }
     </script>
-</body>
-</html>

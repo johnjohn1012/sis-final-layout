@@ -20,20 +20,20 @@
     </li>
 
     <!-- Stock Management Section -->
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">Stock Management</span></li>
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Cashier Management</span></li>
 
     <!-- Stock Management Dropdown -->
-    <li class="menu-item <?php echo (isset($_GET['page']) && in_array($_GET['page'], ['category', 'products', 'raw_ingredients', 'suppliers', 'purchase_orders', 'receiving_list', 'back_orders'])) ? 'open' : ''; ?>">
+    <li class="menu-item <?php echo (isset($_GET['page']) && in_array($_GET['page'], ['pos', 'products', 'raw_ingredients', 'suppliers', 'purchase_orders', 'receiving_list', 'back_orders'])) ? 'open' : ''; ?>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-package"></i>
-        <div>Stock Management</div>
+        <div>Cashier Management</div>
       </a>
 
       <ul class="menu-sub">
-        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'category') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=category" class="menu-link">
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'pos') ? 'active' : ''; ?>">
+          <a href="index_admin.php?page=pos" class="menu-link">
             <i class="menu-icon tf-icons bx bx-folder"></i>
-            <div>Category</div>
+            <div>Pos</div>
           </a>
         </li>
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'products') ? 'active' : ''; ?>">
