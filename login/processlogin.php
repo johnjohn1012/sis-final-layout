@@ -132,7 +132,7 @@ if (isset($_POST['btnlogin'])) {
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then(function() {
-                            window.location = 'http://localhost/sis/cashier/pos.php';
+                            window.location = 'http://localhost/sis-final-layout/cashier/pages/dashboard.php';
                         });
                       </script>";
                 exit();
