@@ -41,6 +41,11 @@
                           case 'products':
                             include 'pages/product.php'; // Include the about page content
                               break;
+
+
+                              case 'raw_ingredients':
+                                include 'pages/raw_ingredients.php'; // Include the about page content
+                                  break;
                       default:
                           include 'pages/404.php'; // Include a 404 page if no match
                   }
