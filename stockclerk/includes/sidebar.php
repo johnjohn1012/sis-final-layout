@@ -23,7 +23,7 @@
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Stock Management</span></li>
 
     <!-- Stock Management Dropdown -->
-    <li class="menu-item <?php echo (isset($_GET['page']) && in_array($_GET['page'], ['category', 'products', 'raw_ingredients', 'suppliers', 'purchase_orders', 'receiving_list', 'back_orders'])) ? 'open' : ''; ?>">
+    <li class="menu-item <?php echo (isset($_GET['page']) && in_array($_GET['page'], ['category', 'products', 'ingredients', 'suppliers', 'purchase_orders', 'receiving_list', 'back_orders'])) ? 'open' : ''; ?>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-package"></i>
         <div>Stock Management</div>
@@ -42,8 +42,8 @@
             <div>Products</div>
           </a>
         </li>
-        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'raw_ingredients') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=raw_ingredients" class="menu-link">
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'ingredients') ? 'active' : ''; ?>">
+          <a href="index_admin.php?page=ingredients" class="menu-link">
             <i class="menu-icon tf-icons bx bx-food-menu"></i>
             <div>Raw Ingredients</div>
           </a>

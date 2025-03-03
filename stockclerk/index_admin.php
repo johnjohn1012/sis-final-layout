@@ -37,6 +37,20 @@
                       case 'suppliers':
                         include 'pages/supplier.php'; // Include the about page content
                           break;
+
+                          case 'products':
+                            include 'pages/product.php'; // Include the about page content
+                              break;
+
+
+                              case 'ingredients':
+                                include 'pages/ingredients.php'; // Include the about page content
+                                  break;
+
+                                  
+                              case 'purchase_orders':
+                                include 'pages/purchase_order.php'; // Include the about page content
+                                  break;
                       default:
                           include 'pages/404.php'; // Include a 404 page if no match
                   }

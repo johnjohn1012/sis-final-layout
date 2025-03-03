@@ -17,6 +17,9 @@
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- reCAPTCHA Script -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
   <style>
     body {
       background: url('../stockclerk/assets/img/images-harah/bg-harah.jpg') no-repeat center center fixed;
@@ -208,6 +211,11 @@
                       <input type="checkbox" id="showPassword" style="width: 20px; height: 20px; cursor: pointer;">
                     </div>
 
+                    <!-- reCAPTCHA Widget -->
+                    <div class="form-group">
+                      <div class="g-recaptcha" data-sitekey="6LdlLtcqAAAAALXwfIUzThyTXolmZK4z8DubUEho"></div>
+                    </div>
+
                     <br>
                     <div class="d-flex justify-content-between">
                       <button class="btn btn-secondary btn-user w-50 me-2" type="button" id="clearFields">Clear Fields</button>
@@ -216,10 +224,9 @@
                     <hr>
                   </form>
 
-
                 </div>
               </div>
-           
+            </div>
           </div>
         </div>
       </div>

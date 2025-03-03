@@ -1,15 +1,15 @@
-<?php include 'functions/supplier-functions.php'; ?>
+<?php include 'functions/product-functions.php'; ?>
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 <div class="container my-7" style="max-width: 100%; width: 120%;">
-    <h1 class="text-left">Supplier Management</h1>
+    <h1 class="text-left">Product Management</h1>
     <br>
 
     <div class="row mb-4">
         <!-- Show Entries Dropdown -->
         <div class="col-md-4">
-            <form method="GET" action="index_admin.php?page=supplier">
+            <form method="GET" action="index_admin.php?page=product">
                 <div class="form-inline w-100">
                     <label for="limit" class="mr-2">Show</label>
                     <select name="limit" class="form-control ml-2">
@@ -24,17 +24,17 @@
         
         <!-- Search Bar -->
         <div class="col-md-4">
-            <form method="GET" action="index_admin.php?page=supplier">
+            <form method="GET" action="index_admin.php?page=product">
                 <div class="form-inline w-100">
-                    <input type="text" name="search" class="form-control w-75" placeholder="Search Suppliers...">
+                    <input type="text" name="search" class="form-control w-75" placeholder="Search Products...">
                     <button type="submit" class="btn btn-primary ml-2">Search</button>
                 </div>
             </form>
         </div>
 
-        <!-- Add New Supplier Button to Trigger Modal -->
+        <!-- Add New Product Button to Trigger Modal -->
         <div class="col-md-4 text-right">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#addSupplierModal">Add New Supplier</button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">Add New Product</button>
         </div>
     </div>
 
@@ -43,34 +43,36 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Supplier Name</th>
-                    <th>Contact Person</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                    <th>Email</th>
+                    <th>Product Name</th>
+                    <th>Selling Price</th>
+                    <th>Stock Quantity</th>
+                    <th>Reorder Level</th>
+                    <th>Category Name</th>
                     <th>Created At</th>
+                    <th>Employee Name</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php while ($supplier = mysqli_fetch_assoc($result)): ?>
+                <?php while ($product = mysqli_fetch_assoc($result)): ?>
                     <tr>
-                        <td><?php echo $supplier['supplier_name']; ?></td>
-                        <td><?php echo $supplier['contact_person']; ?></td>
-                        <td><?php echo $supplier['address']; ?></td>
-                        <td><?php echo $supplier['phone']; ?></td>
-                        <td><?php echo $supplier['email']; ?></td>
-                        <td><?php echo $supplier['created_at']; ?></td>
+                        <td><?php echo $product['product_name']; ?></td>
+                        <td><?php echo $product['product_selling_price']; ?></td>
+                        <td><?php echo $product['product_stock_quantity']; ?></td>
+                        <td><?php echo $product['product_reorder_level']; ?></td>
+                        <td><?php echo $product['category_name']; ?></td>
+                        <td><?php echo $product['product_created_at']; ?></td>
+                        <td><?php echo $product['employee_name']; ?></td>
                         <td>
-                            <button onclick="openEditForm(<?php echo $supplier['supplier_id']; ?>, '<?php echo $supplier['supplier_name']; ?>', '<?php echo $supplier['contact_person']; ?>', '<?php echo $supplier['address']; ?>', '<?php echo $supplier['phone']; ?>', '<?php echo $supplier['email']; ?>')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editSupplierModal">Edit</button>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSupplierModal" onclick="setDeleteData(<?php echo $supplier['supplier_id']; ?>, '<?php echo $supplier['supplier_name']; ?>')">Delete</button>
+                            <button onclick="openEditForm(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>', '<?php echo $product['product_selling_price']; ?>', '<?php echo $product['product_stock_quantity']; ?>', '<?php echo $product['product_reorder_level']; ?>', '<?php echo $product['category_name']; ?>', '<?php echo $product['employee_name']; ?>')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProductModal">Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProductModal" onclick="setDeleteData(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>')">Delete</button>
                         </td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
         </table>
     </div>
-                        
+                    
                 <nav>
                 <ul class="pagination justify-content-end">
                     <!-- Previous Page Link -->
@@ -99,7 +101,8 @@
                     </li>
                 </ul>
                  </nav>
-    <?php include 'modals/supplier-modal.php'; ?>
+
+    <?php include 'modals/product-modal.php'; ?>
 </div>
 
 <!-- Bootstrap JS and dependencies -->
@@ -108,17 +111,18 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    function openEditForm(id, name, contact, address, phone, email) {
-        document.getElementById('edit-supplier-id').value = id;
-        document.getElementById('edit-supplier-name').value = name;
-        document.getElementById('edit-contact-person').value = contact;
-        document.getElementById('edit-address').value = address;
-        document.getElementById('edit-phone').value = phone;
-        document.getElementById('edit-email').value = email;
+    function openEditForm(id, name, price, stock, reorder, category, employee) {
+        document.getElementById('edit-product-id').value = id;
+        document.getElementById('edit-product-name').value = name;
+        document.getElementById('edit-product-price').value = price;
+        document.getElementById('edit-product-stock').value = stock;
+        document.getElementById('edit-product-reorder').value = reorder;
+        document.getElementById('edit-category-name').value = category;
+        document.getElementById('edit-employee-name').value = employee;
     }
 
     function setDeleteData(id, name) {
-        document.getElementById('delete-supplier-id').value = id;
-        document.getElementById('supplier-name').value = name;
+        document.getElementById('delete-product-id').value = id;
+        document.getElementById('product-name').value = name;
     }
 </script>

@@ -101,7 +101,7 @@
                         </a>
                     </li>
                 </ul>
-            </nav>
+                 </nav>
 
 
     <?php include 'modals/category-modal.php'; ?>
