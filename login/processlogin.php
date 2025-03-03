@@ -158,7 +158,7 @@ if (isset($_POST['btnlogin'])) {
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then(function() {
-                            window.location = 'http://localhost/sis/admin/index.php';
+                            window.location = 'http://localhost/sis/admin/index_admin.php';
                         });
                       </script>";
                 exit();
@@ -184,7 +184,11 @@ if (isset($_POST['btnlogin'])) {
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then(function() {
+<<<<<<< HEAD
                             window.location = 'http://localhost/sis-final-layout/cashier/index_cashier.php';
+=======
+                            window.location = 'http://localhost/sis-final-layout/cashier/index_admin.php';
+>>>>>>> a3385382e6a3aa77ea93bf0c3689820c85fbe590
                         });
                       </script>";
                 exit();

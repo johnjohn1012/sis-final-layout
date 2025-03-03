@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 03, 2025 at 07:26 AM
+-- Host: localhost:3307
+-- Generation Time: Mar 03, 2025 at 09:55 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,13 +55,8 @@ CREATE TABLE `tbl_categories` (
 --
 
 INSERT INTO `tbl_categories` (`category_id`, `category_name`, `category_description`, `created_at`, `updated_at`) VALUES
-(8, 'Foods', 'Beverage', '2025-03-02 15:07:41', '2025-03-03 04:15:36'),
-(9, 'Milktea', 'Beverages', '2025-03-03 02:09:19', '2025-03-03 04:16:17'),
-(10, 'dasddasdas', 'dasd', '2025-03-02 07:07:41', '2025-03-02 07:07:46'),
-(11, 'fsddasdas', 'dsadsadsad', '2025-03-02 18:09:19', '2025-03-02 18:32:12'),
-(12, 'dsad', 'fdasdas', '2025-03-02 18:23:31', '2025-03-02 18:23:31'),
-(13, 'sadas', 'dasdsa', '2025-03-02 19:53:29', '2025-03-02 19:53:29'),
-(14, 'dqweqw', 'dsada', '2025-03-02 20:09:18', '2025-03-02 20:09:18');
+(9, 'Milkteasewqeqw', 'Beverages', '2025-03-03 02:09:19', '2025-03-03 08:34:34'),
+(10, 'dasddasdas', 'dasd', '2025-03-02 07:07:41', '2025-03-02 07:07:46');
 
 -- --------------------------------------------------------
 
@@ -203,7 +198,6 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `product_name`, `product_selling_price`, `product_stock_quantity`, `product_reorder_level`, `category_id`, `product_created_at`, `employee_id`) VALUES
-(1, 'dsa', 4324.00, 313, 23, 8, '2025-03-02 19:29:43', 1),
 (2, 'dsadsad', 4324.00, 324315, 23, 10, '2025-03-02 19:30:02', 1),
 (3, 'Milk', 60.00, 20, 15, 9, '2025-03-03 04:21:19', 1);
 
@@ -218,12 +212,19 @@ CREATE TABLE `tbl_purchase_items` (
   `purchase_order_id` int(11) DEFAULT NULL,
   `raw_ingredient_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
-  `quantity_ordered` decimal(10,2) NOT NULL,
-  `quantity_received` decimal(10,2) DEFAULT 0.00,
-  `back_ordered_quantity` decimal(10,2) DEFAULT 0.00,
+  `quantity_ordered` int(11) NOT NULL DEFAULT 0,
+  `quantity_received` int(11) DEFAULT 0,
+  `back_ordered_quantity` int(11) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_purchase_items`
+--
+
+INSERT INTO `tbl_purchase_items` (`purchase_item_id`, `purchase_order_id`, `raw_ingredient_id`, `product_id`, `quantity_ordered`, `quantity_received`, `back_ordered_quantity`, `created_at`, `employee_id`) VALUES
+(1, 1, 1, 2, 12, 12, 12, '2025-03-03 08:53:17', 1);
 
 -- --------------------------------------------------------
 
@@ -241,6 +242,13 @@ CREATE TABLE `tbl_purchase_order_list` (
   `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_purchase_order_list`
+--
+
+INSERT INTO `tbl_purchase_order_list` (`purchase_order_id`, `supplier_id`, `purchase_order_date`, `status`, `purchase_expected_delivery_date`, `purchase_created_at`, `employee_id`) VALUES
+(1, 2, '2025-03-03 07:33:15', 'received', '2025-03-19', '2025-03-03 07:33:15', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -252,14 +260,21 @@ CREATE TABLE `tbl_raw_ingredients` (
   `raw_name` varchar(255) NOT NULL,
   `raw_description` text DEFAULT NULL,
   `raw_unit_of_measure` varchar(50) DEFAULT NULL,
-  `raw_stock_quantity` decimal(10,2) DEFAULT 0.00,
+  `raw_stock_quantity` int(11) DEFAULT 0,
   `raw_cost_per_unit` decimal(10,2) DEFAULT NULL,
-  `raw_reorder_level` decimal(10,2) DEFAULT 0.00,
-  `raw_supplier_id` int(11) DEFAULT NULL,
-  `raw_category_id` int(11) DEFAULT NULL,
+  `raw_reorder_level` int(11) DEFAULT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
   `raw_created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `stock_clerk_id` int(11) DEFAULT NULL
+  `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_raw_ingredients`
+--
+
+INSERT INTO `tbl_raw_ingredients` (`raw_ingredient_id`, `raw_name`, `raw_description`, `raw_unit_of_measure`, `raw_stock_quantity`, `raw_cost_per_unit`, `raw_reorder_level`, `supplier_id`, `category_id`, `raw_created_at`, `employee_id`) VALUES
+(1, 'luya ah', 'mahalon', 'pcs', 23, 232.00, 12, 2, 9, '2025-03-03 08:50:09', 1);
 
 -- --------------------------------------------------------
 
@@ -285,11 +300,18 @@ CREATE TABLE `tbl_receipts` (
 CREATE TABLE `tbl_receiving_list` (
   `receiving_id` int(11) NOT NULL,
   `purchase_item_id` int(11) DEFAULT NULL,
-  `quantity_received` decimal(10,2) DEFAULT NULL,
+  `quantity_received` int(11) DEFAULT 0,
   `receiving_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `receiving_created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `stock_clerk_id` int(11) DEFAULT NULL
+  `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_receiving_list`
+--
+
+INSERT INTO `tbl_receiving_list` (`receiving_id`, `purchase_item_id`, `quantity_received`, `receiving_date`, `receiving_created_at`, `employee_id`) VALUES
+(1, 1, 12, '2025-03-03 08:53:47', '2025-03-03 08:53:47', 1);
 
 -- --------------------------------------------------------
 
@@ -366,8 +388,8 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`user_id`, `employee_id`, `user_name`, `user_password`, `user_created`) VALUES
-(3, 1, 'clemenz', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2025-03-02 15:47:30'),
-(4, 2, 'kittimcashier', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2025-03-03 02:33:05');
+(3, 1, 'stockclerk', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2025-03-02 15:47:30'),
+(4, 2, 'cashier', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2025-03-03 02:33:05');
 
 --
 -- Indexes for dumped tables
@@ -469,9 +491,9 @@ ALTER TABLE `tbl_purchase_order_list`
 --
 ALTER TABLE `tbl_raw_ingredients`
   ADD PRIMARY KEY (`raw_ingredient_id`),
-  ADD KEY `raw_supplier_id` (`raw_supplier_id`),
-  ADD KEY `raw_category_id` (`raw_category_id`),
-  ADD KEY `stock_clerk_id` (`stock_clerk_id`);
+  ADD KEY `raw_supplier_id` (`supplier_id`),
+  ADD KEY `raw_category_id` (`category_id`),
+  ADD KEY `stock_clerk_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_receipts`
@@ -487,7 +509,7 @@ ALTER TABLE `tbl_receipts`
 ALTER TABLE `tbl_receiving_list`
   ADD PRIMARY KEY (`receiving_id`),
   ADD KEY `purchase_item_id` (`purchase_item_id`),
-  ADD KEY `stock_clerk_id` (`stock_clerk_id`);
+  ADD KEY `stock_clerk_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_sales`
@@ -531,7 +553,7 @@ ALTER TABLE `tbl_back_order_list`
 -- AUTO_INCREMENT for table `tbl_categories`
 --
 ALTER TABLE `tbl_categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_customer`
@@ -585,19 +607,19 @@ ALTER TABLE `tbl_products`
 -- AUTO_INCREMENT for table `tbl_purchase_items`
 --
 ALTER TABLE `tbl_purchase_items`
-  MODIFY `purchase_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `purchase_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_purchase_order_list`
 --
 ALTER TABLE `tbl_purchase_order_list`
-  MODIFY `purchase_order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `purchase_order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_raw_ingredients`
 --
 ALTER TABLE `tbl_raw_ingredients`
-  MODIFY `raw_ingredient_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `raw_ingredient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_receipts`
@@ -609,7 +631,7 @@ ALTER TABLE `tbl_receipts`
 -- AUTO_INCREMENT for table `tbl_receiving_list`
 --
 ALTER TABLE `tbl_receiving_list`
-  MODIFY `receiving_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `receiving_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_sales`
@@ -707,9 +729,9 @@ ALTER TABLE `tbl_purchase_order_list`
 -- Constraints for table `tbl_raw_ingredients`
 --
 ALTER TABLE `tbl_raw_ingredients`
-  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_1` FOREIGN KEY (`raw_supplier_id`) REFERENCES `tbl_suppliers` (`supplier_id`),
-  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_2` FOREIGN KEY (`raw_category_id`) REFERENCES `tbl_categories` (`category_id`),
-  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_3` FOREIGN KEY (`stock_clerk_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `tbl_suppliers` (`supplier_id`),
+  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `tbl_categories` (`category_id`),
+  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_3` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
 
 --
 -- Constraints for table `tbl_receipts`
@@ -723,7 +745,7 @@ ALTER TABLE `tbl_receipts`
 --
 ALTER TABLE `tbl_receiving_list`
   ADD CONSTRAINT `tbl_receiving_list_ibfk_1` FOREIGN KEY (`purchase_item_id`) REFERENCES `tbl_purchase_items` (`purchase_item_id`),
-  ADD CONSTRAINT `tbl_receiving_list_ibfk_2` FOREIGN KEY (`stock_clerk_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `tbl_receiving_list_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
 
 --
 -- Constraints for table `tbl_sales`

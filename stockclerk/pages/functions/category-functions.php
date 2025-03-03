@@ -14,7 +14,18 @@ if(isset($_POST['add_category'])){
 
     $query_add = "INSERT INTO tbl_categories (category_name, category_description) VALUES ('$category_name', '$category_description')";
     mysqli_query($conn, $query_add);
-    echo "<script>alert('Recorded successfully'); window.location.href = 'index_admin.php?page=category';</script>";
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+    echo "<script>
+        Swal.fire({
+            title: 'Success!',
+            text: 'Recorded successfully',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = 'index_admin.php?page=category';
+        });
+    </script>";
+    
     exit;  // Stop the execution after redirection
 }
 
@@ -26,7 +37,18 @@ if(isset($_POST['edit_category'])){
 
     $query_edit = "UPDATE tbl_categories SET category_name = '$category_name', category_description = '$category_description' WHERE category_id = $category_id";
     mysqli_query($conn, $query_edit);
-    echo "<script>alert('Updated successfully'); window.location.href = 'index_admin.php?page=category';</script>";
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+    echo "<script>
+        Swal.fire({
+            title: 'Updated!',
+            text: 'Updated successfully',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = 'index_admin.php?page=category';
+        });
+    </script>";
+    
     exit;  // Stop the execution after redirection
 }
 
@@ -38,8 +60,4 @@ if (isset($_POST['delete'])) {
     echo "<script>alert('Deleted successfully'); window.location.href = 'index_admin.php?page=category';</script>";
     exit; // Stop further script execution after redirection
 }
-
-
-
-
 ?>
