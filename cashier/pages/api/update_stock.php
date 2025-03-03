@@ -1,5 +1,6 @@
 <?php
-require('../includes/connection.php');
+require('../../includes/connection.php');
+
 
 // Set response headers for CORS and JSON response
 header('Access-Control-Allow-Origin: *');

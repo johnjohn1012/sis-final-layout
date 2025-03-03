@@ -184,7 +184,7 @@ if (isset($_POST['btnlogin'])) {
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then(function() {
-                            window.location = 'http://localhost/sis-final-layout/cashier/pages/dashboard.php';
+                            window.location = 'http://localhost/sis-final-layout/cashier/index_cashier.php';
                         });
                       </script>";
                 exit();
