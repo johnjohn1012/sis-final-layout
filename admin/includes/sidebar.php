@@ -62,6 +62,41 @@
         </li>
       </ul>
     </li>
+
+    <!-- Cashier Management -->
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Cashier Management</span></li>
+    <li class="menu-item has-submenu <?php echo in_array($_GET['page'] ?? '', ['transactions', 'sales', 'customers', 'cashier_reports']) ? 'open' : ''; ?>">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-money"></i>
+        <div>Cashier Management</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item <?php echo ($_GET['page'] ?? '') == 'transactions' ? 'active' : ''; ?>">
+          <a href="index_admin.php?page=transactions" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-transfer"></i>
+            <div>Transactions</div>
+          </a>
+        </li>
+        <li class="menu-item <?php echo ($_GET['page'] ?? '') == 'sales' ? 'active' : ''; ?>">
+          <a href="index_admin.php?page=sales" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-cart"></i>
+            <div>Sales</div>
+          </a>
+        </li>
+        <li class="menu-item <?php echo ($_GET['page'] ?? '') == 'customers' ? 'active' : ''; ?>">
+          <a href="index_admin.php?page=customers" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-group"></i>
+            <div>Customers</div>
+          </a>
+        </li>
+        <li class="menu-item <?php echo ($_GET['page'] ?? '') == 'cashier_reports' ? 'active' : ''; ?>">
+          <a href="index_admin.php?page=cashier_reports" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-bar-chart"></i>
+            <div>Cashier Reports</div>
+          </a>
+        </li>
+      </ul>
+    </li>
   </ul>
 </aside>
 
