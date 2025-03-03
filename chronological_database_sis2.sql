@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 03, 2025 at 07:26 AM
+-- Host: localhost:3307
+-- Generation Time: Mar 03, 2025 at 05:10 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,13 +55,11 @@ CREATE TABLE `tbl_categories` (
 --
 
 INSERT INTO `tbl_categories` (`category_id`, `category_name`, `category_description`, `created_at`, `updated_at`) VALUES
-(8, 'Foods', 'Beverage', '2025-03-02 15:07:41', '2025-03-03 04:15:36'),
-(9, 'Milktea', 'Beverages', '2025-03-03 02:09:19', '2025-03-03 04:16:17'),
-(10, 'dasddasdas', 'dasd', '2025-03-02 07:07:41', '2025-03-02 07:07:46'),
-(11, 'fsddasdas', 'dsadsadsad', '2025-03-02 18:09:19', '2025-03-02 18:32:12'),
-(12, 'dsad', 'fdasdas', '2025-03-02 18:23:31', '2025-03-02 18:23:31'),
-(13, 'sadas', 'dasdsa', '2025-03-02 19:53:29', '2025-03-02 19:53:29'),
-(14, 'dqweqw', 'dsada', '2025-03-02 20:09:18', '2025-03-02 20:09:18');
+(8, 'dasddasdas', 'dasd', '2025-03-02 15:07:41', '2025-03-02 15:07:46'),
+(9, 'fsddasdas', 'dsadsadsad', '2025-03-03 02:09:19', '2025-03-03 02:32:12'),
+(10, 'dsad', 'fdasdas', '2025-03-03 02:23:31', '2025-03-03 02:23:31'),
+(11, 'sadas', 'dasdsa', '2025-03-03 03:53:29', '2025-03-03 03:53:29'),
+(12, 'dqweqw', 'dsada', '2025-03-03 04:09:18', '2025-03-03 04:09:18');
 
 -- --------------------------------------------------------
 
@@ -98,8 +96,7 @@ CREATE TABLE `tbl_employee` (
 --
 
 INSERT INTO `tbl_employee` (`employee_id`, `first_name`, `middle_name`, `last_name`, `email`, `gender`, `hired_date`, `address_info`, `job_id`) VALUES
-(1, 'clemenz', 'clemenz', 'clemenz', 'clemenz@gmail.com', 'male', '2025-03-02', 'carmen', 1),
-(2, 'Kittim', 'Tanhaga', 'Ignalig', 'kitttimcashier', 'male', '2025-03-03', 'Lumbia', 2);
+(1, 'clemenz', 'clemenz', 'clemenz', 'clemenz@gmail.com', 'male', '2025-03-02', 'carmen', 1);
 
 -- --------------------------------------------------------
 
@@ -112,7 +109,7 @@ CREATE TABLE `tbl_ingredient_usage` (
   `product_id` int(11) DEFAULT NULL,
   `raw_ingredient_id` int(11) DEFAULT NULL,
   `usage_quantity_used` decimal(10,2) DEFAULT NULL,
-  `stock_clerk_id` int(11) DEFAULT NULL
+  `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -132,8 +129,7 @@ CREATE TABLE `tbl_jobs` (
 --
 
 INSERT INTO `tbl_jobs` (`job_id`, `job_name`, `job_created_at`) VALUES
-(1, 'stockclerk', '2025-03-02 15:46:08'),
-(2, 'Cashier', '2025-03-03 02:31:29');
+(1, 'stockclerk', '2025-03-02 15:46:08');
 
 -- --------------------------------------------------------
 
@@ -203,9 +199,8 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `product_name`, `product_selling_price`, `product_stock_quantity`, `product_reorder_level`, `category_id`, `product_created_at`, `employee_id`) VALUES
-(1, 'dsa', 4324.00, 313, 23, 8, '2025-03-02 19:29:43', 1),
-(2, 'dsadsad', 4324.00, 324315, 23, 10, '2025-03-02 19:30:02', 1),
-(3, 'Milk', 60.00, 20, 15, 9, '2025-03-03 04:21:19', 1);
+(2, 'dsa', 4324.00, 324, 23, 8, '2025-03-03 03:29:43', 1),
+(3, 'dsadsad', 4324.00, 324324, 23, 10, '2025-03-03 03:30:02', 1);
 
 -- --------------------------------------------------------
 
@@ -256,9 +251,9 @@ CREATE TABLE `tbl_raw_ingredients` (
   `raw_cost_per_unit` decimal(10,2) DEFAULT NULL,
   `raw_reorder_level` decimal(10,2) DEFAULT 0.00,
   `raw_supplier_id` int(11) DEFAULT NULL,
-  `raw_category_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
   `raw_created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `stock_clerk_id` int(11) DEFAULT NULL
+  `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -328,9 +323,8 @@ CREATE TABLE `tbl_suppliers` (
 
 INSERT INTO `tbl_suppliers` (`supplier_id`, `supplier_name`, `contact_person`, `address`, `phone`, `email`, `created_at`) VALUES
 (1, 'dsadzxcxzczx', '432', 'dsadasd', '4324', 'sadsa@fddas', '2025-03-03 02:11:23'),
-(2, 'dsadzxcxzczx', '432', 'dsadasd', '4324', 'sadsa@fddas', '2025-03-02 18:11:23'),
-(3, 'dsaddsadasd', '432', 'dsadasd', '4324', 'sadsa@fddas', '2025-03-02 18:31:05'),
-(4, 'dsaddsadasd', '432', 'dsadasd', '4324dsadsa', 'sadsa@fddas', '2025-03-02 20:09:29');
+(2, 'dsaddsadasd', '432', 'dsadasd', '4324', 'sadsa@fddas', '2025-03-03 02:31:05'),
+(3, 'dsaddsadasd', '432', 'dsadasd', '4324dsadsa', 'sadsa@fddas', '2025-03-03 04:09:29');
 
 -- --------------------------------------------------------
 
@@ -366,8 +360,7 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`user_id`, `employee_id`, `user_name`, `user_password`, `user_created`) VALUES
-(3, 1, 'clemenz', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2025-03-02 15:47:30'),
-(4, 2, 'kittimcashier', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2025-03-03 02:33:05');
+(3, 1, 'clemenz', '1234', '2025-03-02 15:47:30');
 
 --
 -- Indexes for dumped tables
@@ -407,7 +400,7 @@ ALTER TABLE `tbl_ingredient_usage`
   ADD PRIMARY KEY (`usage_id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `raw_ingredient_id` (`raw_ingredient_id`),
-  ADD KEY `stock_clerk_id` (`stock_clerk_id`);
+  ADD KEY `stock_clerk_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_jobs`
@@ -470,8 +463,8 @@ ALTER TABLE `tbl_purchase_order_list`
 ALTER TABLE `tbl_raw_ingredients`
   ADD PRIMARY KEY (`raw_ingredient_id`),
   ADD KEY `raw_supplier_id` (`raw_supplier_id`),
-  ADD KEY `raw_category_id` (`raw_category_id`),
-  ADD KEY `stock_clerk_id` (`stock_clerk_id`);
+  ADD KEY `raw_category_id` (`category_id`),
+  ADD KEY `stock_clerk_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_receipts`
@@ -531,7 +524,7 @@ ALTER TABLE `tbl_back_order_list`
 -- AUTO_INCREMENT for table `tbl_categories`
 --
 ALTER TABLE `tbl_categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_customer`
@@ -543,7 +536,7 @@ ALTER TABLE `tbl_customer`
 -- AUTO_INCREMENT for table `tbl_employee`
 --
 ALTER TABLE `tbl_employee`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_ingredient_usage`
@@ -555,7 +548,7 @@ ALTER TABLE `tbl_ingredient_usage`
 -- AUTO_INCREMENT for table `tbl_jobs`
 --
 ALTER TABLE `tbl_jobs`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_payments`
@@ -621,7 +614,7 @@ ALTER TABLE `tbl_sales`
 -- AUTO_INCREMENT for table `tbl_suppliers`
 --
 ALTER TABLE `tbl_suppliers`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_transaction_log`
@@ -633,7 +626,7 @@ ALTER TABLE `tbl_transaction_log`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -658,7 +651,7 @@ ALTER TABLE `tbl_employee`
 ALTER TABLE `tbl_ingredient_usage`
   ADD CONSTRAINT `tbl_ingredient_usage_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`),
   ADD CONSTRAINT `tbl_ingredient_usage_ibfk_2` FOREIGN KEY (`raw_ingredient_id`) REFERENCES `tbl_raw_ingredients` (`raw_ingredient_id`),
-  ADD CONSTRAINT `tbl_ingredient_usage_ibfk_3` FOREIGN KEY (`stock_clerk_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `tbl_ingredient_usage_ibfk_3` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
 
 --
 -- Constraints for table `tbl_payments`
@@ -708,8 +701,8 @@ ALTER TABLE `tbl_purchase_order_list`
 --
 ALTER TABLE `tbl_raw_ingredients`
   ADD CONSTRAINT `tbl_raw_ingredients_ibfk_1` FOREIGN KEY (`raw_supplier_id`) REFERENCES `tbl_suppliers` (`supplier_id`),
-  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_2` FOREIGN KEY (`raw_category_id`) REFERENCES `tbl_categories` (`category_id`),
-  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_3` FOREIGN KEY (`stock_clerk_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `tbl_categories` (`category_id`),
+  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_3` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
 
 --
 -- Constraints for table `tbl_receipts`
