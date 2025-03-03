@@ -21,26 +21,37 @@ $employee_query = "SELECT employee_id, CONCAT(first_name, ' ', last_name) AS emp
 $employee_result = mysqli_query($conn, $employee_query);
 
 // Add product
-if(isset($_POST['add_product'])){
+if (isset($_POST['add_product'])) {
     $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
     $selling_price = floatval($_POST['product_selling_price']);
     $stock_quantity = intval($_POST['product_stock_quantity']);
     $reorder_level = intval($_POST['product_reorder_level']);
     $category_id = intval($_POST['category_id']);
     $employee_id = intval($_POST['employee_id']);
-    
+
+    // Validate inputs
+    if (empty($product_name) || $selling_price < 0 || $stock_quantity < 0 || $reorder_level < 0 || $category_id <= 0 || $employee_id <= 0) {
+        echo "<script>alert('Invalid input data'); window.location.href = 'index_admin.php?page=products';</script>";
+        exit;
+    }
+
+    // Insert product
     $query_add = "INSERT INTO tbl_products (product_name, product_selling_price, product_stock_quantity, product_reorder_level, category_id, employee_id) 
                   VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query_add);
-    mysqli_stmt_bind_param($stmt, "sdiiii", $product_name, $selling_price, $stock_quantity, $reorder_level, $category_id, $employee_id);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-    echo "<script>alert('Recorded successfully'); window.location.href = 'index_admin.php?page=products';</script>";
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "sdiiii", $product_name, $selling_price, $stock_quantity, $reorder_level, $category_id, $employee_id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        echo "<script>alert('Product added successfully'); window.location.href = 'index_admin.php?page=products';</script>";
+    } else {
+        echo "<script>alert('Failed to add product'); window.location.href = 'index_admin.php?page=products';</script>";
+    }
     exit;
 }
 
 // Edit product
-if(isset($_POST['edit_product'])){
+if (isset($_POST['edit_product'])) {
     $product_id = intval($_POST['product_id']);
     $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
     $selling_price = floatval($_POST['product_selling_price']);
@@ -49,25 +60,48 @@ if(isset($_POST['edit_product'])){
     $category_id = intval($_POST['category_id']);
     $employee_id = intval($_POST['employee_id']);
 
+    // Validate inputs
+    if (empty($product_name) || $selling_price < 0 || $stock_quantity < 0 || $reorder_level < 0 || $category_id <= 0 || $employee_id <= 0) {
+        echo "<script>alert('Invalid input data'); window.location.href = 'index_admin.php?page=products';</script>";
+        exit;
+    }
+
+    // Update product
     $query_edit = "UPDATE tbl_products SET product_name = ?, product_selling_price = ?, product_stock_quantity = ?, 
                     product_reorder_level = ?, category_id = ?, employee_id = ? WHERE product_id = ?";
     $stmt = mysqli_prepare($conn, $query_edit);
-    mysqli_stmt_bind_param($stmt, "sdiiiii", $product_name, $selling_price, $stock_quantity, $reorder_level, $category_id, $employee_id, $product_id);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-    echo "<script>alert('Updated successfully'); window.location.href = 'index_admin.php?page=products';</script>";
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "sdiiiii", $product_name, $selling_price, $stock_quantity, $reorder_level, $category_id, $employee_id, $product_id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        echo "<script>alert('Product updated successfully'); window.location.href = 'index_admin.php?page=products';</script>";
+    } else {
+        echo "<script>alert('Failed to update product'); window.location.href = 'index_admin.php?page=products';</script>";
+    }
     exit;
 }
 
 // Handle deletion
 if (isset($_POST['delete'])) {
     $product_id = intval($_POST['delete']);
+
+    // Validate product ID
+    if ($product_id <= 0) {
+        echo "<script>alert('Invalid product ID'); window.location.href = 'index_admin.php?page=products';</script>";
+        exit;
+    }
+
+    // Delete product
     $query_delete = "DELETE FROM tbl_products WHERE product_id = ?";
     $stmt = mysqli_prepare($conn, $query_delete);
-    mysqli_stmt_bind_param($stmt, "i", $product_id);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-    echo "<script>alert('Deleted successfully'); window.location.href = 'index_admin.php?page=products';</script>";
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $product_id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        echo "<script>alert('Product deleted successfully'); window.location.href = 'index_admin.php?page=products';</script>";
+    } else {
+        echo "<script>alert('Failed to delete product'); window.location.href = 'index_admin.php?page=products';</script>";
+    }
     exit;
 }
 ?>

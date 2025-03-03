@@ -66,10 +66,33 @@
                     
                         <td><?php echo $product['product_created_at']; ?></td>
                         <td><?php echo $product['employee_name']; ?></td>
-                        <td>
-                            <button onclick="openEditForm(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>', '<?php echo $product['product_selling_price']; ?>', '<?php echo $product['product_stock_quantity']; ?>', '<?php echo $product['product_reorder_level']; ?>', '<?php echo $product['category_name']; ?>', '<?php echo $product['employee_name']; ?>')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProductModal">Edit</button>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProductModal" onclick="setDeleteData(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>')">Delete</button>
-                        </td>
+                        <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <!-- View Button -->
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewProductModal" 
+                                onclick="viewProduct('<?php echo $product['product_id']; ?>', '<?php echo $product['product_name']; ?>', '<?php echo $product['product_selling_price']; ?>', '<?php echo $product['product_stock_quantity']; ?>', '<?php echo $product['product_reorder_level']; ?>', '<?php echo $product['category_name']; ?>', '<?php echo $product['employee_name']; ?>')" 
+                                style="margin: 0 5px;">
+                                View
+                            </button>
+
+                            <!-- Edit Button -->
+                            <button onclick="openEditForm(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>', '<?php echo $product['product_selling_price']; ?>', '<?php echo $product['product_stock_quantity']; ?>', '<?php echo $product['product_reorder_level']; ?>', '<?php echo $product['category_name']; ?>', '<?php echo $product['employee_name']; ?>')" 
+                                class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProductModal"
+                                style="margin: 0 5px;">
+                                Edit
+                            </button>
+
+                            <!-- Delete Button -->
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProductModal" 
+                                onclick="setDeleteData(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>')" 
+                                style="margin: 0 5px;">
+                                Delete
+                            </button>
+                        </div>
+                    </td>
+
+
+
                     </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -117,9 +140,9 @@
     function openEditForm(id, name, price, stock, reorder, category, employee) {
         document.getElementById('edit-product-id').value = id;
         document.getElementById('edit-product-name').value = name;
-        document.getElementById('edit-product-price').value = price;
-        document.getElementById('edit-product-stock').value = stock;
-        document.getElementById('edit-product-reorder').value = reorder;
+        document.getElementById('edit-product-selling-price').value = price;
+        document.getElementById('edit-product-stock-quantity').value = stock;
+        document.getElementById('edit-product-reorder-level').value = reorder;
         document.getElementById('edit-category-name').value = category;
         document.getElementById('edit-employee-name').value = employee;
     }
@@ -128,4 +151,19 @@
         document.getElementById('delete-product-id').value = id;
         document.getElementById('product-name').value = name;
     }
+
+
+
+    function viewProduct(productId, productName, productSellingPrice, productStockQuantity, productReorderLevel, categoryName, employeeName) {
+    // Set the modal content with the product details
+    document.getElementById('view-product-id').innerText = productId;
+    document.getElementById('view-product-name').innerText = productName;
+    document.getElementById('view-product-selling-price').innerText = productSellingPrice;
+    document.getElementById('view-product-stock-quantity').innerText = productStockQuantity;
+    document.getElementById('view-product-reorder-level').innerText = productReorderLevel;
+    document.getElementById('view-category-name').innerText = categoryName;
+    document.getElementById('view-employee-name').innerText = employeeName;
+}
+
+
 </script>

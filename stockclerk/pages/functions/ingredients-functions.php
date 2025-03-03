@@ -1,4 +1,8 @@
 <?php
+// Enable error reporting for development
+error_reporting(E_ALL);   // Report all types of errors
+ini_set('display_errors', 1);   // Display errors on the page
+
 // Include database connection
 include('connection.php');
 
@@ -25,8 +29,9 @@ $employee_result = mysqli_query($conn, $employee_query);
 $supplier_query = "SELECT supplier_id, supplier_name FROM tbl_suppliers ORDER BY supplier_name ASC";
 $supplier_result = mysqli_query($conn, $supplier_query);
 
-// Add raw ingredient
-if(isset($_POST['add_raw_ingredient'])){
+// Handle adding a new raw ingredient
+if (isset($_POST['add_raw_ingredient'])) {
+    // Sanitize and get the form data
     $raw_name = mysqli_real_escape_string($conn, $_POST['raw_name']);
     $raw_description = mysqli_real_escape_string($conn, $_POST['raw_description']);
     $unit_of_measure = mysqli_real_escape_string($conn, $_POST['raw_unit_of_measure']);
@@ -37,18 +42,26 @@ if(isset($_POST['add_raw_ingredient'])){
     $employee_id = intval($_POST['employee_id']);
     $supplier_id = intval($_POST['supplier_id']);
     
+    // Insert new raw ingredient
     $query_add = "INSERT INTO tbl_raw_ingredients (raw_name, raw_description, raw_unit_of_measure, raw_stock_quantity, raw_cost_per_unit, raw_reorder_level, category_id, employee_id, supplier_id) 
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query_add);
     mysqli_stmt_bind_param($stmt, "sssidiiii", $raw_name, $raw_description, $unit_of_measure, $stock_quantity, $cost_per_unit, $reorder_level, $category_id, $employee_id, $supplier_id);
-    mysqli_stmt_execute($stmt);
+    
+    // Execute the query
+    if (mysqli_stmt_execute($stmt)) {
+        echo "<script>alert('Recorded successfully'); window.location.href = 'index_admin.php?page=ingredients';</script>";
+    } else {
+        echo "<script>alert('Error recording raw ingredient');</script>";
+    }
+    
     mysqli_stmt_close($stmt);
-    echo "<script>alert('Recorded successfully'); window.location.href = 'index_admin.php?page=ingredients';</script>";
     exit;
 }
 
-// Edit raw ingredient
-if(isset($_POST['edit_raw_ingredient'])){
+// Handle editing an existing raw ingredient
+if (isset($_POST['edit_raw_ingredient'])) {
+    // Get the form data
     $raw_ingredient_id = intval($_POST['raw_ingredient_id']);
     $raw_name = mysqli_real_escape_string($conn, $_POST['raw_name']);
     $raw_description = mysqli_real_escape_string($conn, $_POST['raw_description']);
@@ -60,24 +73,52 @@ if(isset($_POST['edit_raw_ingredient'])){
     $employee_id = intval($_POST['employee_id']);
     $supplier_id = intval($_POST['supplier_id']);
 
+    // Prepare the update query
     $query_edit = "UPDATE tbl_raw_ingredients SET raw_name = ?, raw_description = ?, raw_unit_of_measure = ?, raw_stock_quantity = ?, raw_cost_per_unit = ?, raw_reorder_level = ?, category_id = ?, employee_id = ?, supplier_id = ? WHERE raw_ingredient_id = ?";
     $stmt = mysqli_prepare($conn, $query_edit);
+    
+    if ($stmt === false) {
+        die("Error preparing statement: " . mysqli_error($conn));
+    }
+
+    // Bind parameters and execute the update
     mysqli_stmt_bind_param($stmt, "sssidiiiii", $raw_name, $raw_description, $unit_of_measure, $stock_quantity, $cost_per_unit, $reorder_level, $category_id, $employee_id, $supplier_id, $raw_ingredient_id);
-    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_execute($stmt);
+
+    if ($result) {
+        echo "<script>alert('Updated successfully'); window.location.href = 'index_admin.php?page=ingredients';</script>";
+    } else {
+        echo "<script>alert('Error updating raw ingredient');</script>";
+    }
+
     mysqli_stmt_close($stmt);
-    echo "<script>alert('Updated successfully'); window.location.href = 'index_admin.php?page=ingredients';</script>";
     exit;
 }
 
-// Handle deletion
+// Handle deleting a raw ingredient
 if (isset($_POST['delete_raw_ingredient'])) {
-    $raw_ingredient_id = intval($_POST['delete_raw_ingredient']);
+    // Get the raw ingredient ID from the POST data
+    $raw_ingredient_id = intval($_POST['delete_raw_ingredient']);  // The name attribute in the hidden input
     $query_delete = "DELETE FROM tbl_raw_ingredients WHERE raw_ingredient_id = ?";
+
+    // Prepare and execute the query to delete the raw ingredient
     $stmt = mysqli_prepare($conn, $query_delete);
+    if ($stmt === false) {
+        die("Error preparing statement: " . mysqli_error($conn));
+    }
+
+    // Bind the parameter and execute the query
     mysqli_stmt_bind_param($stmt, "i", $raw_ingredient_id);
-    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_execute($stmt);
+
+    // Check if the query was successful
+    if ($result) {
+        echo "<script>alert('Raw ingredient deleted successfully'); window.location.href = 'index_admin.php?page=ingredients';</script>";
+    } else {
+        echo "<script>alert('Error deleting raw ingredient');</script>";
+    }
+
     mysqli_stmt_close($stmt);
-    echo "<script>alert('Deleted successfully'); window.location.href = 'index_admin.php?page=ingredients';</script>";
     exit;
 }
 ?>

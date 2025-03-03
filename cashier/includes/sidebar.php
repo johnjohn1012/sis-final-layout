@@ -31,7 +31,7 @@
 
       <ul class="menu-sub">
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'pos') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=pos" class="menu-link">
+          <a href="index_cashier.php?page=pos" class="menu-link">
             <i class="menu-icon tf-icons bx bx-folder"></i>
             <div>Pos</div>
           </a>

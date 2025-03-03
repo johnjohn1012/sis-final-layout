@@ -71,6 +71,7 @@
                         <td><?php echo $category['created_at']; ?></td>
                         <td><?php echo $category['updated_at']; ?></td>
                         <td class="text-center">
+                            
                         <div class="btn-group" role="group">
                             <!-- View Button -->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewCategoryModal" 
@@ -151,6 +152,8 @@
     // Set the category name in the input field (readonly)
     document.getElementById('category-name').value = name;
 }
+
+
 
 
 function viewCategory(name, description, createdAt, updatedAt) {
