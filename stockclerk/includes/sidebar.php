@@ -23,7 +23,7 @@
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Stock Management</span></li>
 
     <!-- Stock Management Dropdown -->
-    <li class="menu-item <?php echo (isset($_GET['page']) && in_array($_GET['page'], ['category', 'products', 'ingredients', 'suppliers', 'purchase_orders', 'receiving_list', 'back_orders'])) ? 'open' : ''; ?>">
+    <li class="menu-item <?php echo (isset($_GET['page']) && in_array($_GET['page'], ['category', 'products', 'ingredients', 'suppliers', 'purchase_orders', 'receiving_list', 'back_orders','return_orders'])) ? 'open' : ''; ?>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-package"></i>
         <div>Stock Management</div>
@@ -39,7 +39,7 @@
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'products') ? 'active' : ''; ?>">
           <a href="index_admin.php?page=products" class="menu-link">
             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-            <div>Products</div>
+            <div>Products List</div>
           </a>
         </li>
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'ingredients') ? 'active' : ''; ?>">
@@ -51,7 +51,7 @@
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'suppliers') ? 'active' : ''; ?>">
           <a href="index_admin.php?page=suppliers" class="menu-link">
             <i class="menu-icon tf-icons bx bx-store-alt"></i>
-            <div>Suppliers</div>
+            <div>Suppliers List</div>
           </a>
         </li>
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'purchase_orders') ? 'active' : ''; ?>">
@@ -66,12 +66,21 @@
             <div>Receiving List</div>
           </a>
         </li>
+
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'back_orders') ? 'active' : ''; ?>">
           <a href="index_admin.php?page=back_orders" class="menu-link">
             <i class="menu-icon tf-icons bx bx-arrow-back"></i>
-            <div>Back Orders</div>
+            <div>Back Orders List</div>
           </a>
         </li>
+
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'return_orders') ? 'active' : ''; ?>">
+          <a href="index_admin.php?page=return_orders" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-arrow-back"></i>
+            <div>Return Orders List</div>
+          </a>
+        </li>
+
       </ul>
     </li>
 

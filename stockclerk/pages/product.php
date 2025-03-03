@@ -43,11 +43,12 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
+                <th>Category Name</th>
                     <th>Product Name</th>
                     <th>Selling Price</th>
                     <th>Stock Quantity</th>
                     <th>Reorder Level</th>
-                    <th>Category Name</th>
+                   
                     <th>Created At</th>
                     <th>Employee Name</th>
                     <th>Actions</th>
@@ -56,11 +57,13 @@
             <tbody>
                 <?php while ($product = mysqli_fetch_assoc($result)): ?>
                     <tr>
+
+                    <td><?php echo $product['category_name']; ?></td>
                         <td><?php echo $product['product_name']; ?></td>
                         <td><?php echo $product['product_selling_price']; ?></td>
                         <td><?php echo $product['product_stock_quantity']; ?></td>
                         <td><?php echo $product['product_reorder_level']; ?></td>
-                        <td><?php echo $product['category_name']; ?></td>
+                    
                         <td><?php echo $product['product_created_at']; ?></td>
                         <td><?php echo $product['employee_name']; ?></td>
                         <td>

@@ -34,7 +34,7 @@
 
         <!-- Add New Purchase Order Button to Trigger Modal -->
         <div class="col-md-4 text-right">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#addPurchaseModal">Add New Purchase Order</button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#addPurchaseItemModal">Add New Purchase Order</button>
         </div>
     </div>
 
@@ -43,6 +43,7 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
+                    <th>Purchase Order ID</th>
                     <th>Supplier Name</th>
                     <th>Order Date</th>
                     <th>Expected Delivery</th>
@@ -54,13 +55,14 @@
             <tbody>
                 <?php while ($order = mysqli_fetch_assoc($result)): ?>
                     <tr>
+                        <td><?php echo $order['purchase_order_id']; ?></td>
                         <td><?php echo $order['supplier_name']; ?></td>
                         <td><?php echo $order['purchase_order_date']; ?></td>
                         <td><?php echo $order['purchase_expected_delivery_date']; ?></td>
                         <td><?php echo $order['status']; ?></td>
                         <td><?php echo $order['employee_name']; ?></td>
                         <td>
-                            <button onclick="openEditForm(<?php echo $order['purchase_order_id']; ?>, '<?php echo $order['supplier_name']; ?>', '<?php echo $order['purchase_order_date']; ?>', '<?php echo $order['purchase_expected_delivery_date']; ?>', '<?php echo $order['status']; ?>', '<?php echo $order['employee_name']; ?>')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editPurchaseModal">Edit</button>
+                            <button onclick="openEditForm(<?php echo $order['purchase_order_id']; ?>, '<?php echo $order['supplier_id']; ?>', '<?php echo $order['purchase_order_date']; ?>', '<?php echo $order['purchase_expected_delivery_date']; ?>', '<?php echo $order['status']; ?>', '<?php echo $order['employee_id']; ?>')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editPurchaseModal">Edit</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePurchaseModal" onclick="setDeleteData(<?php echo $order['purchase_order_id']; ?>, '<?php echo $order['supplier_name']; ?>')">Delete</button>
                         </td>
                     </tr>
@@ -102,13 +104,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    function openEditForm(id, supplier, orderDate, deliveryDate, status, employee) {
+    function openEditForm(id, supplierId, orderDate, deliveryDate, status, employeeId) {
         document.getElementById('edit-purchase-order-id').value = id;
-        document.getElementById('edit-supplier-name').value = supplier;
+        document.getElementById('edit-supplier-id').value = supplierId;
         document.getElementById('edit-purchase-order-date').value = orderDate;
         document.getElementById('edit-purchase-expected-delivery').value = deliveryDate;
         document.getElementById('edit-status').value = status;
-        document.getElementById('edit-employee-name').value = employee;
+        document.getElementById('edit-employee-id').value = employeeId;
     }
 
     function setDeleteData(id, supplier) {

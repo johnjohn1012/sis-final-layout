@@ -45,13 +45,14 @@ include 'functions/raw-functions.php';
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
+                      <th>Category</th>
                     <th>Ingredient Name</th>
                     <th>Unit of Measure</th>
                     <th>Stock Quantity</th>
                     <th>Cost per Unit</th>
                     <th>Reorder Level</th>
                     <th>Supplier</th>
-                    <th>Category</th>
+                   
                     <th>Employee</th>
                     <th>Actions</th>
                 </tr>
@@ -60,24 +61,26 @@ include 'functions/raw-functions.php';
                 <?php if ($result): ?>
                     <?php while ($ingredient = mysqli_fetch_assoc($result)): ?>
                         <tr>
+                        <td><?php echo htmlspecialchars($ingredient['category_name']); ?></td>
                             <td><?php echo htmlspecialchars($ingredient['raw_name']); ?></td>
                             <td><?php echo htmlspecialchars($ingredient['raw_unit_of_measure']); ?></td>
                             <td><?php echo htmlspecialchars($ingredient['raw_stock_quantity']); ?></td>
                             <td><?php echo htmlspecialchars($ingredient['raw_cost_per_unit']); ?></td>
                             <td><?php echo htmlspecialchars($ingredient['raw_reorder_level']); ?></td>
                             <td><?php echo htmlspecialchars($ingredient['supplier_name']); ?></td>
-                            <td><?php echo htmlspecialchars($ingredient['category_name']); ?></td>
+                         
                             <td><?php echo htmlspecialchars($ingredient['employee_name']); ?></td>
                             <td>
                                 <button onclick="openEditForm(
                                     <?php echo $ingredient['raw_ingredient_id']; ?>, 
+                                           '<?php echo htmlspecialchars($ingredient['category_name']); ?>', 
                                     '<?php echo htmlspecialchars($ingredient['raw_name']); ?>', 
                                     '<?php echo htmlspecialchars($ingredient['raw_unit_of_measure']); ?>', 
                                     '<?php echo htmlspecialchars($ingredient['raw_stock_quantity']); ?>', 
                                     '<?php echo htmlspecialchars($ingredient['raw_cost_per_unit']); ?>', 
                                     '<?php echo htmlspecialchars($ingredient['raw_reorder_level']); ?>', 
                                     '<?php echo htmlspecialchars($ingredient['supplier_name']); ?>', 
-                                    '<?php echo htmlspecialchars($ingredient['category_name']); ?>', 
+                             
                                     '<?php echo htmlspecialchars($ingredient['employee_name']); ?>')"
                                     class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editRawIngredientModal">
                                     Edit

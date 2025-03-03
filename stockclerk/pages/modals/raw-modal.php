@@ -10,10 +10,24 @@
             </div>
             <div class="modal-body">
                 <form action="index_admin.php?page=ingredients" method="POST">
+
+                <div class="form-group">
+                        <label for="category_id">Category</label>
+                        <select name="category_id" id="category_id" class="form-control" required>
+                            <option value="">Select Category</option>
+                            <?php while($row = mysqli_fetch_assoc($category_result)): ?>
+                                <option value="<?= $row['category_id']; ?>"><?= $row['category_name']; ?></option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
+
+
+
                     <div class="form-group">
                         <label for="raw_name">Ingredient Name</label>
                         <input type="text" name="raw_name" id="raw_name" class="form-control" required>
                     </div>
+
                     <div class="form-group">
                         <label for="raw_unit_of_measure">Unit of Measure</label>
                         <input type="text" name="raw_unit_of_measure" id="raw_unit_of_measure" class="form-control" required>
@@ -40,17 +54,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="category_id">Category</label>
-                        <select name="category_id" id="category_id" class="form-control" required>
-                            <option value="">Select Category</option>
-                            <?php while($row = mysqli_fetch_assoc($category_result)): ?>
-                                <option value="<?= $row['category_id']; ?>"><?= $row['category_name']; ?></option>
-                            <?php endwhile; ?>
-                        </select>
-                    </div>
-
-
+          
 
                     <div>
                     <!-- Populate Employee Dropdown -->
