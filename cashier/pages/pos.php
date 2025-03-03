@@ -1,8 +1,9 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sonner@1.0.0/sonner.min.js"></script>
 
 
-    <div class="container-fluid d-flex" style="max-width: 120vw; width: 110%; margin: 0 auto;">
+    <div class="container-fluid d-flex" style="max-width: 100vw; width: 100%; margin: 0 auto;">
 
 
         <!-- Sidebar / Navigation -->
@@ -10,21 +11,35 @@
             <h2>Categories</h2>
             <?php
             require('./includes/connection.php');
+            
+            // Add the "ALL" button
+            echo "<button class='btn btn-primary w-100 mb-2' onclick='fetchProductsByCategory(0)'>ALL</button>";
 
+            // Fetch and display all categories
             $category_sql = "SELECT category_id, category_name FROM tbl_categories ORDER BY category_id ASC";
+            $category_sql1 = "SELECT * FROM tbl_categories";
             $category_result = $conn->query($category_sql);
+            $category_result1 = $conn->query($category_sql1);
 
+            
             if ($category_result->num_rows > 0) {
                 while ($category = $category_result->fetch_assoc()) {
-                    echo "<button class='btn btn-primary w-100 mb-2'>" . $category["category_name"] . "</button>";
+                    echo "<button class='btn btn-primary w-100 mb-2' onclick='fetchProductsByCategory(" . $category["category_id"] . ")'>" . $category["category_name"] . "</button>";
                 }
             } else {
                 echo "<p>No categories found</p>";
             }
-            
+
+            if ($category_result1->num_rows > 0) {
+                while ($category = $category_result1->fetch_assoc()) {
+
+            }
+        }
             ?>
-       
         </div>
+
+
+
 
 
         <!-- Product Grid -->
@@ -37,19 +52,24 @@
 
                 if ($product_result->num_rows > 0) {
                     while ($row = $product_result->fetch_assoc()) {
+                        $isLowStock = $row["product_stock_quantity"] <= $row["product_reorder_level"];
+                        $btnClass = $isLowStock ? 'btn-danger' : 'btn-success';
+                        $btnDisabled = $row["product_stock_quantity"] == 0 ? 'disabled' : '';
+                
                         echo "<div class='col-md-4 mb-3'>";
                         echo "<div class='card'>";
                         echo "<div class='card-body'>";
                         echo "<h5 class='card-title'>" . $row["product_name"] . "</h5>";
-                        echo "<p class='card-text'>Price: $" . $row["product_selling_price"] . "</p>";
+                        echo "<p class='card-text'>Price: P" . $row["product_selling_price"] . "</p>";
                         echo "<p class='card-text stock' id='stock-" . $row["product_id"] . "'>Stock: " . $row["product_stock_quantity"] . "</p>";
                         echo "<p class='card-text'>Reorder Level: " . $row["product_reorder_level"] . "</p>";
-                        echo "<button class='btn btn-success' onclick='addToCheckout(" . $row["product_id"] . ")'>Add to Order</button>";
+                        echo "<button class='btn $btnClass w-100' id='btn-" . $row["product_id"] . "' onclick='addToCheckout(" . $row["product_id"] . ")' $btnDisabled>Add to Order</button>";
                         echo "</div></div></div>";
                     }
                 } else {
                     echo "<p>No products found</p>";
                 }
+                
                 $conn->close();
                 ?>
             </div>
@@ -76,9 +96,9 @@
                     <label>Discount (%):</label>
                     <input type="number" id="discount" class="form-control" value="0" onchange="updateTotal()">
                 </div>
-                <p>Subtotal: <span id="subtotal">$0.00</span></p>
-                <p>Tax: <span id="tax">$0.00</span></p>
-                <h3>Total: <span id="total">$0.00</span></h3>
+                <p>Subtotal: <span id="subtotal">P0.00</span></p>
+                <p>Tax: <span id="tax">P0.00</span></p>
+                <h3>Total: <span id="total">P0.00</span></h3>
             </div>
             <div class="actions mt-3">
         <button class="btn btn-danger w-100 mb-2" onclick="cancelOrder()">Cancel Order</button>
@@ -91,6 +111,56 @@
     </div>
 
     <script>
+ function fetchProductsByCategory(categoryId) {
+    fetch('./pages/api/fetch_products.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category_id: categoryId })
+    })
+    .then(response => response.json())
+    .then(products => {
+        const productGrid = document.querySelector('.row');
+        productGrid.innerHTML = ''; // Clear existing products
+        
+
+        if (products.length > 0) {
+            products.forEach(product => {
+                const isLowStock = product.product_stock_quantity <= product.product_reorder_level;
+                const btnClass = isLowStock ? 'btn-danger' : 'btn-success';
+                const btnDisabled = product.product_stock_quantity === 0 ? 'disabled' : '';
+
+                productGrid.innerHTML += `
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">${product.product_name}</h5>
+                                <p class="card-text">Price: P${product.product_selling_price}</p>
+                                <p class="card-text stock" id="stock-${product.product_id}">Stock: ${product.product_stock_quantity}</p>
+                                <p class="card-text">Reorder Level: ${product.product_reorder_level}</p>
+                                <button class="btn ${btnClass} w-100" id="btn-${product.product_id}" onclick="addToCheckout(${product.product_id})" ${btnDisabled}>
+                                    Add to Order
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            productGrid.innerHTML = categoryId === null ? '<p>No products available.</p>' : '<p>No products found for this category.</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+// Add 'ALL' button for categories
+const categoryContainer = document.querySelector('#category-buttons');
+categoryContainer.innerHTML += `
+    <button class="btn btn-primary" onclick="fetchProductsByCategory(null)">ALL</button>
+`;
+
+
          function addToCheckout(productId) {
             const productCard = document.querySelector(`[onclick='addToCheckout(${productId})']`).closest('.card-body');
             const productName = productCard.querySelector('.card-title').innerText;
@@ -104,7 +174,7 @@
                 stockElement.innerText = `Stock: ${currentStock}`;
 
                 // Send request to update stock in the database
-                fetch('./api/update_stock.php', {
+                fetch('./pages/api/update_stock.php', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ product_id: productId, quantity: 1 })
@@ -115,6 +185,9 @@
     const data = JSON.parse(text); // Then parse manually
     if (data.success) {
         console.log('Stock updated in database');
+        if (currentStock <= parseInt(data.reorder_level)) {
+                        Sonner.notify(`${data.product_name} is insufficient, restock now!`, { type: 'warning' });
+                    }
     } else {
         alert('Failed to update stock in database: ' + data.message);
     }
@@ -137,7 +210,7 @@
                     newRow.innerHTML = `
                         <td>${productName}</td>
                         <td><input type="number" class="form-control" value="1" min="1" onchange="updateTotal()"></td>
-                        <td>$${productPrice}</td>
+                        <td>P${productPrice}</td>
                     `;
                     checkoutList.appendChild(newRow);
                 }
@@ -151,9 +224,9 @@
         function cancelOrder() {
             if (confirm('Are you sure you want to cancel the order?')) {
                 document.getElementById('checkout-list').innerHTML = '';
-                document.getElementById('subtotal').innerText = '$0.00';
-                document.getElementById('tax').innerText = '$0.00';
-                document.getElementById('total').innerText = '$0.00';
+                document.getElementById('subtotal').innerText = 'P0.00';
+                document.getElementById('tax').innerText = 'P0.00';
+                document.getElementById('total').innerText = 'P0.00';
                 document.getElementById('discount').value = 0;
                 alert('Order has been canceled.');
             }
@@ -165,14 +238,14 @@
 
         function payOrder() {
             const total = document.getElementById('total').innerText;
-            if (total === '$0.00') {
+            if (total === 'P0.00') {
                 alert('No items in the order!');
             } else {
                 alert(`Payment successful! Total amount: ${total}`);
                 document.getElementById('checkout-list').innerHTML = '';
-                document.getElementById('subtotal').innerText = '$0.00';
-                document.getElementById('tax').innerText = '$0.00';
-                document.getElementById('total').innerText = '$0.00';
+                document.getElementById('subtotal').innerText = 'P0.00';
+                document.getElementById('tax').innerText = 'P0.00';
+                document.getElementById('total').innerText = 'P0.00';
                 document.getElementById('discount').value = 0;
             }
         }
@@ -183,7 +256,7 @@
             
             rows.forEach(row => {
                 const quantity = row.querySelector('input').value;
-                const price = row.children[2].innerText.replace('$', '');
+                const price = row.children[2].innerText.replace('P', '');
                 subtotal += quantity * parseFloat(price);
             });
 
@@ -191,9 +264,9 @@
             const discountedAmount = subtotal * (discount / 100);
             const tax = subtotal * 0.05;
 
-            document.getElementById('subtotal').innerText = `$${subtotal.toFixed(2)}`;
-            document.getElementById('tax').innerText = `$${tax.toFixed(2)}`;
-            document.getElementById('total').innerText = `$${(subtotal - discountedAmount + tax).toFixed(2)}`;
+            document.getElementById('subtotal').innerText = `P${subtotal.toFixed(2)}`;
+            document.getElementById('tax').innerText = `P${tax.toFixed(2)}`;
+            document.getElementById('total').innerText = `P${(subtotal - discountedAmount + tax).toFixed(2)}`;
         }
 
         function logout() {
