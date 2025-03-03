@@ -34,8 +34,8 @@
                       case 'category':
                         include 'pages/category.php'; // Include the about page content
                           break;
-                      case 'contact':
-                          include 'includes/contact.php'; // Include the contact page content
+                      case 'suppliers':
+                        include 'pages/supplier.php'; // Include the about page content
                           break;
                       default:
                           include 'pages/404.php'; // Include a 404 page if no match
