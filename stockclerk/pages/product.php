@@ -1,8 +1,4 @@
-<?php 
-include 'functions/product-functions.php'; 
-
-
-?>
+<?php include 'functions/product-functions.php'; ?>
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
@@ -60,41 +56,69 @@ include 'functions/product-functions.php';
             <tbody>
                 <?php while ($product = mysqli_fetch_assoc($result)): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($product['product_name']); ?></td>
-                        <td><?php echo htmlspecialchars($product['product_selling_price']); ?></td>
-                        <td><?php echo htmlspecialchars($product['product_stock_quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($product['product_reorder_level']); ?></td>
-                        <td><?php echo htmlspecialchars($product['category_name']); ?></td>
-                        <td><?php echo htmlspecialchars($product['product_created_at']); ?></td>
-                        <td><?php echo htmlspecialchars($product['employee_name']); ?></td>
+                        <td><?php echo $product['product_name']; ?></td>
+                        <td><?php echo $product['product_selling_price']; ?></td>
+                        <td><?php echo $product['product_stock_quantity']; ?></td>
+                        <td><?php echo $product['product_reorder_level']; ?></td>
+                        <td><?php echo $product['category_name']; ?></td>
+                        <td><?php echo $product['product_created_at']; ?></td>
+                        <td><?php echo $product['employee_name']; ?></td>
                         <td>
-                            <button onclick="openEditForm(<?php echo $product['product_id']; ?>, '<?php echo htmlspecialchars($product['product_name']); ?>', '<?php echo htmlspecialchars($product['product_selling_price']); ?>', '<?php echo htmlspecialchars($product['product_stock_quantity']); ?>', '<?php echo htmlspecialchars($product['product_reorder_level']); ?>', '<?php echo htmlspecialchars($product['category_id']); ?>', '<?php echo htmlspecialchars($product['product_created_at']); ?>', '<?php echo htmlspecialchars($product['employee_id']); ?>')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProductModal">Edit</button>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProductModal" onclick="setDeleteData(<?php echo $product['product_id']; ?>, '<?php echo htmlspecialchars($product['product_name']); ?>')">Delete</button>
+                            <button onclick="openEditForm(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>', '<?php echo $product['product_selling_price']; ?>', '<?php echo $product['product_stock_quantity']; ?>', '<?php echo $product['product_reorder_level']; ?>', '<?php echo $product['category_name']; ?>', '<?php echo $product['employee_name']; ?>')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProductModal">Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProductModal" onclick="setDeleteData(<?php echo $product['product_id']; ?>, '<?php echo $product['product_name']; ?>')">Delete</button>
                         </td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
         </table>
     </div>
+                    
+                <nav>
+                <ul class="pagination justify-content-end">
+                    <!-- Previous Page Link -->
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <!-- Page Numbers -->
+                    <li class="page-item active">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+
+                    <!-- Next Page Link -->
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+                 </nav>
 
     <?php include 'modals/product-modal.php'; ?>
 </div>
 
 <!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    function openEditForm(id, name, price, stock, reorder, category, created, employee) {
+    function openEditForm(id, name, price, stock, reorder, category, employee) {
         document.getElementById('edit-product-id').value = id;
         document.getElementById('edit-product-name').value = name;
-        document.getElementById('edit-product-selling-price').value = price;
-        document.getElementById('edit-product-stock-quantity').value = stock;
-        document.getElementById('edit-product-reorder-level').value = reorder;
-        document.getElementById('edit-category-id').value = category;
-        document.getElementById('edit-product-created-at').value = created;
-        document.getElementById('edit-employee-id').value = employee;
+        document.getElementById('edit-product-price').value = price;
+        document.getElementById('edit-product-stock').value = stock;
+        document.getElementById('edit-product-reorder').value = reorder;
+        document.getElementById('edit-category-name').value = category;
+        document.getElementById('edit-employee-name').value = employee;
     }
 
     function setDeleteData(id, name) {

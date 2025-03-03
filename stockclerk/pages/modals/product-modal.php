@@ -1,3 +1,6 @@
+
+
+
 <!-- Add Product Modal -->
 <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -16,7 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label for="product_selling_price">Selling Price</label>
-                        <input type="number" name="product_selling_price" id="product_selling_price" class="form-control" required>
+                        <input type="text" name="product_selling_price" id="product_selling_price" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="product_stock_quantity">Stock Quantity</label>
@@ -26,31 +29,35 @@
                         <label for="product_reorder_level">Reorder Level</label>
                         <input type="number" name="product_reorder_level" id="product_reorder_level" class="form-control" required>
                     </div>
+
                     <div class="form-group">
-                        <label for="category_id">Category</label>
-                        <select name="category_id" id="category_id" class="form-control" required>
-                            <option value="">Select Category</option>
-                            <?php while ($row = mysqli_fetch_assoc($categories)) { ?>
-                                <option value="<?php echo $row['category_id']; ?>"><?php echo $row['category_name']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="employee_id">Employee</label>
-                        <select name="employee_id" id="employee_id" class="form-control" required>
-                            <option value="">Select Employee</option>
-                            <?php while ($row = mysqli_fetch_assoc($employees)) { ?>
-                                <option value="<?php echo $row['employee_id']; ?>"><?php echo $row['employee_name']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
+                            <!-- Populate Category Dropdown -->
+                    <select name="category_id" id="category_id" class="form-control" required>
+                        <option value="">Select Category</option>
+                        <?php while($row = mysqli_fetch_assoc($category_result)): ?>
+                            <option value="<?= $row['category_id']; ?>"><?= $row['category_name']; ?></option>
+                        <?php endwhile; ?>
+                    </select>
+                 </div>
+
+
+                 <div>
+                    <!-- Populate Employee Dropdown -->
+                    <select name="employee_id" id="employee_id" class="form-control" required>
+                        <option value="">Select Employee</option>
+                        <?php while($row = mysqli_fetch_assoc($employee_result)): ?>
+                            <option value="<?= $row['employee_id']; ?>"><?= $row['employee_name']; ?></option>
+                        <?php endwhile; ?>
+                    </select>
+
+                    </div>  
+                                <br>
                     <button type="submit" name="add_product" class="btn btn-primary">Add Product</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 <!-- Edit Product Modal -->
 <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
@@ -71,7 +78,7 @@
                     </div>
                     <div class="form-group">
                         <label for="edit-product-selling-price">Selling Price</label>
-                        <input type="number" name="product_selling_price" id="edit-product-selling-price" class="form-control" required>
+                        <input type="text" name="product_selling_price" id="edit-product-selling-price" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="edit-product-stock-quantity">Stock Quantity</label>
@@ -81,20 +88,30 @@
                         <label for="edit-product-reorder-level">Reorder Level</label>
                         <input type="number" name="product_reorder_level" id="edit-product-reorder-level" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                        <label for="edit-category-id">Category ID</label>
-                        <input type="number" name="category_id" id="edit-category-id" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-employee-id">Employee ID</label>
-                        <input type="number" name="employee_id" id="edit-employee-id" class="form-control" required>
-                    </div>
-                    <button type="submit" name="edit_product" class="btn btn-primary">Update Product</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
+                        <div class="form-group">
+                            <label>Category:</label>
+                            <input type="number" name="product_stock_quantity" id="edit-product-stock-quantity" class="form-control" required>
+                                <?php while ($row = mysqli_fetch_assoc($category_result)): ?>
+                                <p><?= $row['category_name']; ?></p>
+                            <?php endwhile; ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Employee:</label>
+                            <input type="number" name="product_stock_quantity" id="edit-product-stock-quantity" class="form-control" disabled>
+                            <?php while ($row = mysqli_fetch_assoc($employee_result)): ?>
+                                <p><?= $row['employee_name']; ?></p>
+                            <?php endwhile; ?>
+                        </div>
+
+                                            <br>
+                                            <button type="submit" name="edit_product" class="btn btn-primary">Update Product</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 <!-- Delete Product Confirmation Modal -->
 <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
