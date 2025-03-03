@@ -171,7 +171,7 @@ if (isset($_POST['btnlogin'])) {
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then(function() {
-                            window.location = 'http://localhost/sis-final-layout/stockclerk/index_admin.php';
+                            window.location = 'http://localhost/sis-final-layout/stockclerk/index.php';
                         });
                       </script>";
                 exit();

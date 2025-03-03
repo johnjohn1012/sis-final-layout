@@ -1,35 +1,126 @@
-<div class="dashboard-module">
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="row">
-            <!-- Users Module -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Users</h5>
-                        <p class="card-text"><?php echo 150; ?> Users</p>
-                    </div>
-                </div>
-            </div>
+<?php
 
-            <!-- Sales Module -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Sales</h5>
-                        <p class="card-text"><?php echo '$' . number_format(12500, 2); ?> USD</p>
-                    </div>
-                </div>
-            </div>
+// Include database connection
+include('functions/connection.php');
 
-            <!-- Active Projects Module -->
-            <div class="col-md-4">
-                <div class="card">
+
+?>
+
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Purchase Order Card -->
+        <div class="col-md-3 mb-3">
+            <a href="index_admin.php?page=purchase_orders" style="text-decoration: none; color: inherit;">
+                <div class="card border-left-primary shadow h-100 py-2 custom-card">
                     <div class="card-body">
-                        <h5 class="card-title">Active Projects</h5>
-                        <p class="card-text"><?php echo 25; ?> Projects</p>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-0">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Purchase Orders</div>
+                                <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                    <?php 
+                                        echo $conn->query("SELECT * FROM `tbl_purchase_order_list`")->num_rows; 
+                                    ?>
+                                    Record(s)
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-file-invoice fa-3x" style="color: #007bff;"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
+
+        <!-- Receiving Records Card -->
+        <div class="col-md-3 mb-3">
+            <a href="receiving.php" style="text-decoration: none; color: inherit;">
+                <div class="card border-left-warning shadow h-100 py-2 custom-card">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-0">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Receiving Records</div>
+                                <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                    <?php echo $conn->query("SELECT * FROM `tbl_receiving_list`")->num_rows; ?>
+                                    Record(s)
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-box-open fa-3x" style="color: #ffc107;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Back Orders Card -->
+        <div class="col-md-3 mb-3">
+            <a href="back_order.php" style="text-decoration: none; color: inherit;">
+                <div class="card border-left-primary shadow h-100 py-2 custom-card">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-0">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Back Orders</div>
+                                <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                    <?php echo $conn->query("SELECT * FROM `tbl_back_order_list`")->num_rows; ?>
+                                    Record(s)
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-3x" style="color: #007bff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Suppliers Card -->
+        <div class="col-md-3 mb-3">
+            <a href="index_admin.php?page=suppliers" style="text-decoration: none; color: inherit;">
+                <div class="card border-left-primary shadow h-100 py-2 custom-card">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-0">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Suppliers</div>
+                                <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                    <?php echo $conn->query("SELECT * FROM `tbl_suppliers`")->num_rows; ?>
+                                    Supplier(s)
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-truck-moving fa-3x" style="color: #007bff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
     </div>
 </div>
+
+<?php include 'includes/footer.php'; ?>
+
+<style>
+    .custom-card {
+        transition: 0.3s ease-in-out;
+    }
+
+    .custom-card:hover {
+        background-color: rgb(11, 102, 57) !important;
+        color: white !important;
+        box-shadow: 0px 0px 20px rgba(4, 243, 56, 0.8);
+        transform: scale(1.05);
+    }
+
+    .custom-card:hover .text-primary,
+    .custom-card:hover .h6,
+    .custom-card:hover i {
+        color: white !important;
+    }
+</style>
