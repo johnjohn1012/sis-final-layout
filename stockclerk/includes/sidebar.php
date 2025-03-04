@@ -46,18 +46,21 @@
             <div>Products List</div>
           </a>
         </li>
-        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'ingredients') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=ingredients" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-food-menu"></i>
-            <div>Raw Ingredients</div>
-          </a>
-        </li>
+
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'suppliers') ? 'active' : ''; ?>">
           <a href="index_admin.php?page=suppliers" class="menu-link">
             <i class="menu-icon tf-icons bx bx-store-alt"></i>
             <div>Suppliers List</div>
           </a>
         </li>
+        
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'ingredients') ? 'active' : ''; ?>">
+          <a href="index_admin.php?page=ingredients" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-food-menu"></i>
+            <div>Raw Ingredients</div>
+          </a>
+        </li>
+
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'purchase_orders') ? 'active' : ''; ?>">
           <a href="index_admin.php?page=purchase_orders" class="menu-link">
             <i class="menu-icon tf-icons bx bx-cart"></i>

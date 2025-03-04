@@ -4,8 +4,9 @@ include 'functions/ingredients-functions.php';
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-<div class="container my-7" style="max-width: 100%; width: 120%;">
-    <h1 class="text-left">Raw Ingredients Management</h1>
+<div class="container my-7" style="max-width: calc(100% + 40px); width: calc(130% + 70px);">
+
+    <h4 class="text-left">Raw Ingredients Management</h4>
     <br>
 
     <div class="row mb-4">
@@ -46,32 +47,51 @@ include 'functions/ingredients-functions.php';
             <thead>
                 <tr>
                       <th>Category</th>
-                    <th>Ingredient Name</th>
-                    <th>Unit of Measure</th>
-                    <th>Stock Quantity</th>
-                    <th>Cost per Unit</th>
-                    <th>Reorder Level</th>
+                    <th>Name</th>
+                    <th>Unit</th>
+                    <th>Quantity</th>
+                    <th>StockIn</th>
+                    <th>StockOut</th>
+                    <th>Cost_Unit</th>
+                    <th>Reorder_Lvl</th>
                     <th>Supplier</th>
                    
                     <th>Employee</th>
-                    <th>Actions</th>
+                    
+                    <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if ($result): ?>
                     <?php while ($ingredient = mysqli_fetch_assoc($result)): ?>
     <tr>
+
+
+   
         <!-- Category Name -->
         <td><?php echo $ingredient['category_name']; ?></td>
 
         <!-- Raw Name -->
         <td><?php echo $ingredient['raw_name']; ?></td>
+        
 
         <!-- Unit of Measure -->
         <td><?php echo $ingredient['raw_unit_of_measure']; ?></td>
 
         <!-- Stock Quantity -->
-        <td><?php echo $ingredient['raw_stock_quantity']; ?></td>
+        <td style="text-align: center; font-weight: bold; 
+            <?php echo ($ingredient['raw_stock_quantity'] < $ingredient['raw_reorder_level']) ? 'color: red; background-color: #ffe6e6; border-radius: 5px; padding: 5px;' : 'color: black;'; ?>">
+            <?php echo $ingredient['raw_stock_quantity']; ?>
+            <?php if ($ingredient['raw_stock_quantity'] < $ingredient['raw_reorder_level']): ?>
+                <span style="display: block; font-size: 12px; background: red; color: white; padding: 3px 6px; border-radius: 5px; margin-top: 3px;">
+                    Low Stock
+                </span>
+            <?php endif; ?>
+        </td>
+
+        <td><?php echo $ingredient['raw_stock_in']; ?></td>
+
+        <td><?php echo $ingredient['raw_stock_out']; ?></td>
 
         <!-- Cost Per Unit -->
         <td><?php echo $ingredient['raw_cost_per_unit']; ?></td>
@@ -86,45 +106,69 @@ include 'functions/ingredients-functions.php';
         <td><?php echo $ingredient['employee_name']; ?></td>
 
         <td class="text-center">
-            <div class="btn-group" role="group">
-                <!-- View Button -->
-                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewRawIngredientModal" 
-                    onclick="viewRawIngredient('<?php echo $ingredient['raw_ingredient_id']; ?>', 
-                                               '<?php echo $ingredient['raw_name']; ?>', 
-                                               '<?php echo $ingredient['raw_unit_of_measure']; ?>', 
-                                               '<?php echo $ingredient['raw_stock_quantity']; ?>', 
-                                               '<?php echo $ingredient['raw_cost_per_unit']; ?>', 
-                                               '<?php echo $ingredient['raw_reorder_level']; ?>', 
-                                               '<?php echo $ingredient['supplier_name']; ?>', 
-                                               '<?php echo $ingredient['employee_name']; ?>')" 
-                    style="margin: 0 5px;">
-                    View
-                </button>
+    <div class="btn-group" role="group">
+        <!-- View Button -->
+        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewRawIngredientModal" 
+            onclick="viewRawIngredient('<?php echo $ingredient['raw_ingredient_id']; ?>', 
+                                       '<?php echo $ingredient['raw_name']; ?>', 
+                                       '<?php echo $ingredient['raw_unit_of_measure']; ?>', 
+                                       '<?php echo $ingredient['raw_stock_quantity']; ?>', 
+                                           '<?php echo $ingredient['raw_stock_in']; ?>', 
+                                               '<?php echo $ingredient['raw_stock_out']; ?>', 
+                                       '<?php echo $ingredient['raw_cost_per_unit']; ?>', 
+                                       '<?php echo $ingredient['raw_reorder_level']; ?>', 
+                                       '<?php echo $ingredient['supplier_name']; ?>', 
+                                       '<?php echo $ingredient['employee_name']; ?>')" 
+            style="margin: 0 5px;">
+            View
+        </button>
 
-                <!-- Edit Button -->
-                <button onclick="openEditForm(
-                    <?php echo $ingredient['raw_ingredient_id']; ?>, 
-                    '<?php echo $ingredient['category_name']; ?>', 
-                    '<?php echo $ingredient['raw_name']; ?>', 
-                    '<?php echo $ingredient['raw_unit_of_measure']; ?>', 
-                    '<?php echo $ingredient['raw_stock_quantity']; ?>', 
-                    '<?php echo $ingredient['raw_cost_per_unit']; ?>', 
-                    '<?php echo $ingredient['raw_reorder_level']; ?>', 
-                    '<?php echo $ingredient['supplier_name']; ?>', 
-                    '<?php echo $ingredient['employee_name']; ?>')"
-                    class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editRawIngredientModal"
-                    style="margin: 0 5px;">
-                    Edit
-                </button>
+        <!-- Edit Button -->
+        <button onclick="openEditForm(
+            <?php echo $ingredient['raw_ingredient_id']; ?>, 
+            '<?php echo $ingredient['category_name']; ?>', 
+            '<?php echo $ingredient['raw_name']; ?>', 
+            '<?php echo $ingredient['raw_unit_of_measure']; ?>', 
+            '<?php echo $ingredient['raw_stock_quantity']; ?>',
+               '<?php echo $ingredient['raw_stock_in']; ?>', 
+                '<?php echo $ingredient['raw_stock_out']; ?>',  
+            '<?php echo $ingredient['raw_cost_per_unit']; ?>', 
+            '<?php echo $ingredient['raw_reorder_level']; ?>', 
+            '<?php echo $ingredient['supplier_name']; ?>', 
+            '<?php echo $ingredient['employee_name']; ?>')"
+            class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editRawIngredientModal"
+            style="margin: 0 5px;">
+            Edit
+        </button>
 
-                <!-- Delete Button -->
-                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteRawIngredientModal"
-                    onclick="setDeleteData(<?php echo $ingredient['raw_ingredient_id']; ?>, '<?php echo $ingredient['raw_name']; ?>')"
-                    style="margin: 0 5px;">
-                    Delete
-                </button>
-            </div>
-        </td>
+  
+
+        <!-- Stock In Button -->
+        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#stockInModal"
+            onclick="stockIn(<?php echo $ingredient['raw_ingredient_id']; ?>, '<?php echo $ingredient['raw_name']; ?>')"
+            style="margin: 0 5px;">
+            Stock In
+        </button>
+
+        <!-- Stock Out Button -->
+        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#stockOutModal"
+            onclick="stockOut(<?php echo $ingredient['raw_ingredient_id']; ?>, '<?php echo $ingredient['raw_name']; ?>')"
+            style="margin: 0 5px;">
+            Stock Out
+        </button>
+
+              <!-- Delete Button -->
+              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteRawIngredientModal"
+            onclick="setDeleteData(<?php echo $ingredient['raw_ingredient_id']; ?>, '<?php echo $ingredient['raw_name']; ?>')"
+            style="margin: 0 5px;">
+            Delete
+        </button> 
+
+
+
+    </div>
+</td>
+
     </tr>
 <?php endwhile; ?>
 
@@ -170,19 +214,18 @@ include 'functions/ingredients-functions.php';
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    // JavaScript function to populate the modal with data for editing
-function openEditForm(id, name, description, unit, stock, cost, reorder, category, employee, supplier) {
-    // Set the values in the modal fields
+function openEditForm(id, raw_name, description, unit, stock, stockin, stockout, cost, reorder, category, employee, supplier) {
     document.getElementById('edit-raw-ingredient-id').value = id;
-    document.getElementById('edit-raw-name').value = name;
     document.getElementById('edit-raw-description').value = description;
     document.getElementById('edit-raw-unit').value = unit;
     document.getElementById('edit-raw-stock').value = stock;
+    document.getElementById('edit-raw-stock-in').value = stockin;
+    document.getElementById('edit-raw-stock-out').value = stockout;
     document.getElementById('edit-raw-cost').value = cost;
     document.getElementById('edit-raw-reorder').value = reorder;
-    document.getElementById('edit-raw-category').value = category;
-    document.getElementById('edit-raw-employee').value = employee;
-    document.getElementById('edit-raw-supplier').value = supplier;
+    document.getElementById('edit-raw-category-name').value = category;
+    document.getElementById('edit-raw-employee-name').value = employee;
+    document.getElementById('edit-raw-supplier-name').value = supplier;
 }
 
 
@@ -193,12 +236,14 @@ function openEditForm(id, name, description, unit, stock, cost, reorder, categor
 
 
 
-    function viewRawIngredient(id, name, unit, stock, cost, reorderLevel, supplier, employee) {
+    function viewRawIngredient(id, name, unit, stock,stockin, stockout, cost, reorderLevel, supplier, employee) {
     // Populate the modal with raw ingredient data
     document.getElementById('view-raw-ingredient-id').innerText = id;
     document.getElementById('view-raw-ingredient-name').innerText = name;
     document.getElementById('view-raw-ingredient-unit').innerText = unit;
     document.getElementById('view-raw-ingredient-stock').innerText = stock;
+    document.getElementById('view-raw-ingredient-stock-in').innerText = stockin;
+    document.getElementById('view-raw-ingredient-stock-out').innerText = stockout;
     document.getElementById('view-raw-ingredient-cost').innerText = cost;
     document.getElementById('view-raw-ingredient-reorder-level').innerText = reorderLevel;
     document.getElementById('view-raw-ingredient-supplier').innerText = supplier;

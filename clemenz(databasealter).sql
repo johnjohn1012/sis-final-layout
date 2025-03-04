@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3307
--- Generation Time: Mar 03, 2025 at 09:55 AM
+-- Host: 127.0.0.1
+-- Generation Time: Mar 04, 2025 at 06:51 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -30,10 +30,10 @@ SET time_zone = "+00:00";
 CREATE TABLE `tbl_back_order_list` (
   `back_order_id` int(11) NOT NULL,
   `purchase_item_id` int(11) DEFAULT NULL,
-  `quantity_back_ordered` decimal(10,2) DEFAULT NULL,
+  `quantity_back_ordered` int(11) DEFAULT 0,
   `backorder_expected_delivery_date` date DEFAULT NULL,
   `backorder_created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `stock_clerk_id` int(11) DEFAULT NULL
+  `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -55,8 +55,9 @@ CREATE TABLE `tbl_categories` (
 --
 
 INSERT INTO `tbl_categories` (`category_id`, `category_name`, `category_description`, `created_at`, `updated_at`) VALUES
-(9, 'Milkteasewqeqw', 'Beverages', '2025-03-03 02:09:19', '2025-03-03 08:34:34'),
-(10, 'dasddasdas', 'dasd', '2025-03-02 07:07:41', '2025-03-02 07:07:46');
+(18, 'dasd', 'dfffd', '2025-03-04 12:58:03', '2025-03-04 16:04:50'),
+(19, 'ds', 'dsds', '2025-03-04 16:18:11', '2025-03-04 16:18:11'),
+(20, 'Seasoning', 'lamas\r\n', '2025-03-04 16:18:25', '2025-03-04 16:18:25');
 
 -- --------------------------------------------------------
 
@@ -93,8 +94,7 @@ CREATE TABLE `tbl_employee` (
 --
 
 INSERT INTO `tbl_employee` (`employee_id`, `first_name`, `middle_name`, `last_name`, `email`, `gender`, `hired_date`, `address_info`, `job_id`) VALUES
-(1, 'clemenz', 'clemenz', 'clemenz', 'clemenz@gmail.com', 'male', '2025-03-02', 'carmen', 1),
-(2, 'Kittim', 'Tanhaga', 'Ignalig', 'kitttimcashier', 'male', '2025-03-03', 'Lumbia', 2);
+(5, 'das', 'das', 'dsa', 'dasd@dasdas.com', NULL, '2025-03-04', 'dasdsadsa', 3);
 
 -- --------------------------------------------------------
 
@@ -106,8 +106,8 @@ CREATE TABLE `tbl_ingredient_usage` (
   `usage_id` int(11) NOT NULL,
   `product_id` int(11) DEFAULT NULL,
   `raw_ingredient_id` int(11) DEFAULT NULL,
-  `usage_quantity_used` decimal(10,2) DEFAULT NULL,
-  `stock_clerk_id` int(11) DEFAULT NULL
+  `usage_quantity_used` int(11) DEFAULT NULL,
+  `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -127,8 +127,7 @@ CREATE TABLE `tbl_jobs` (
 --
 
 INSERT INTO `tbl_jobs` (`job_id`, `job_name`, `job_created_at`) VALUES
-(1, 'stockclerk', '2025-03-02 15:46:08'),
-(2, 'Cashier', '2025-03-03 02:31:29');
+(3, 'dsad', '2025-03-04 13:19:04');
 
 -- --------------------------------------------------------
 
@@ -171,7 +170,7 @@ CREATE TABLE `tbl_pos_order_items` (
   `pos_order_item_id` int(11) NOT NULL,
   `pos_order_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
-  `quantity_sold` decimal(10,2) NOT NULL,
+  `quantity_sold` int(11) NOT NULL,
   `item_price` decimal(10,2) DEFAULT NULL,
   `item_total_amount` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -186,8 +185,9 @@ CREATE TABLE `tbl_products` (
   `product_id` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
   `product_selling_price` decimal(10,2) DEFAULT NULL,
-  `product_stock_quantity` int(11) DEFAULT 0,
-  `product_reorder_level` int(11) DEFAULT 0,
+  `product_image` varchar(255) DEFAULT NULL,
+  `product_quantity` int(11) DEFAULT 0,
+  `product_restock_qty` int(11) DEFAULT 0,
   `category_id` int(11) DEFAULT NULL,
   `product_created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `employee_id` int(11) DEFAULT NULL
@@ -197,9 +197,11 @@ CREATE TABLE `tbl_products` (
 -- Dumping data for table `tbl_products`
 --
 
-INSERT INTO `tbl_products` (`product_id`, `product_name`, `product_selling_price`, `product_stock_quantity`, `product_reorder_level`, `category_id`, `product_created_at`, `employee_id`) VALUES
-(2, 'dsadsad', 4324.00, 324315, 23, 10, '2025-03-02 19:30:02', 1),
-(3, 'Milk', 60.00, 20, 15, 9, '2025-03-03 04:21:19', 1);
+INSERT INTO `tbl_products` (`product_id`, `product_name`, `product_selling_price`, `product_image`, `product_quantity`, `product_restock_qty`, `category_id`, `product_created_at`, `employee_id`) VALUES
+(5, 'milktea', 60.00, 'product_67c73209b608f7.82221337.png', 23, 10, 20, '2025-03-04 17:02:01', 5),
+(6, 'milktea', 60.00, 'product_67c732c00f4ae2.35871648.jpg', 23, 3, 18, '2025-03-04 17:05:04', 5),
+(7, 'milktea', 60.00, 'product_67c737fcc4d226.49318173.jpg', 23, 323, 18, '2025-03-04 17:27:24', 5),
+(8, 'milk tea', 60.00, 'product_67c73ce7bf80d9.33225053.png', 23, 23, 19, '2025-03-04 17:48:23', 5);
 
 -- --------------------------------------------------------
 
@@ -211,20 +213,12 @@ CREATE TABLE `tbl_purchase_items` (
   `purchase_item_id` int(11) NOT NULL,
   `purchase_order_id` int(11) DEFAULT NULL,
   `raw_ingredient_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
   `quantity_ordered` int(11) NOT NULL DEFAULT 0,
   `quantity_received` int(11) DEFAULT 0,
   `back_ordered_quantity` int(11) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_purchase_items`
---
-
-INSERT INTO `tbl_purchase_items` (`purchase_item_id`, `purchase_order_id`, `raw_ingredient_id`, `product_id`, `quantity_ordered`, `quantity_received`, `back_ordered_quantity`, `created_at`, `employee_id`) VALUES
-(1, 1, 1, 2, 12, 12, 12, '2025-03-03 08:53:17', 1);
 
 -- --------------------------------------------------------
 
@@ -241,13 +235,6 @@ CREATE TABLE `tbl_purchase_order_list` (
   `purchase_created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_purchase_order_list`
---
-
-INSERT INTO `tbl_purchase_order_list` (`purchase_order_id`, `supplier_id`, `purchase_order_date`, `status`, `purchase_expected_delivery_date`, `purchase_created_at`, `employee_id`) VALUES
-(1, 2, '2025-03-03 07:33:15', 'received', '2025-03-19', '2025-03-03 07:33:15', 2);
 
 -- --------------------------------------------------------
 
@@ -266,15 +253,18 @@ CREATE TABLE `tbl_raw_ingredients` (
   `supplier_id` int(11) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
   `raw_created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `employee_id` int(11) DEFAULT NULL
+  `employee_id` int(11) DEFAULT NULL,
+  `raw_stock_in` int(11) DEFAULT 0,
+  `raw_stock_out` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_raw_ingredients`
 --
 
-INSERT INTO `tbl_raw_ingredients` (`raw_ingredient_id`, `raw_name`, `raw_description`, `raw_unit_of_measure`, `raw_stock_quantity`, `raw_cost_per_unit`, `raw_reorder_level`, `supplier_id`, `category_id`, `raw_created_at`, `employee_id`) VALUES
-(1, 'luya ah', 'mahalon', 'pcs', 23, 232.00, 12, 2, 9, '2025-03-03 08:50:09', 1);
+INSERT INTO `tbl_raw_ingredients` (`raw_ingredient_id`, `raw_name`, `raw_description`, `raw_unit_of_measure`, `raw_stock_quantity`, `raw_cost_per_unit`, `raw_reorder_level`, `supplier_id`, `category_id`, `raw_created_at`, `employee_id`, `raw_stock_in`, `raw_stock_out`) VALUES
+(6, 'baboy', '', 'kg', 0, 12.00, 32, 5, 18, '2025-03-04 14:05:33', 5, 2179, 4731),
+(7, 'Oil', '', 'kg', 38, 23.00, 16, 5, 18, '2025-03-04 16:17:14', 5, 23, 8);
 
 -- --------------------------------------------------------
 
@@ -306,12 +296,23 @@ CREATE TABLE `tbl_receiving_list` (
   `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tbl_receiving_list`
+-- Table structure for table `tbl_return_list`
 --
 
-INSERT INTO `tbl_receiving_list` (`receiving_id`, `purchase_item_id`, `quantity_received`, `receiving_date`, `receiving_created_at`, `employee_id`) VALUES
-(1, 1, 12, '2025-03-03 08:53:47', '2025-03-03 08:53:47', 1);
+CREATE TABLE `tbl_return_list` (
+  `return_id` int(11) NOT NULL,
+  `purchase_item_id` int(11) DEFAULT NULL,
+  `quantity_returned` int(11) DEFAULT 0,
+  `return_reason` text DEFAULT NULL,
+  `return_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 = pending, 1 = completed',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `employee_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -349,10 +350,7 @@ CREATE TABLE `tbl_suppliers` (
 --
 
 INSERT INTO `tbl_suppliers` (`supplier_id`, `supplier_name`, `contact_person`, `address`, `phone`, `email`, `created_at`) VALUES
-(1, 'dsadzxcxzczx', '432', 'dsadasd', '4324', 'sadsa@fddas', '2025-03-03 02:11:23'),
-(2, 'dsadzxcxzczx', '432', 'dsadasd', '4324', 'sadsa@fddas', '2025-03-02 18:11:23'),
-(3, 'dsaddsadasd', '432', 'dsadasd', '4324', 'sadsa@fddas', '2025-03-02 18:31:05'),
-(4, 'dsaddsadasd', '432', 'dsadasd', '4324dsadsa', 'sadsa@fddas', '2025-03-02 20:09:29');
+(5, 'john', 'Clemeña , John Rey', 'dsad', '32323', 'john@gmail.com', '2025-03-04 13:00:03');
 
 -- --------------------------------------------------------
 
@@ -384,14 +382,6 @@ CREATE TABLE `tbl_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_user`
---
-
-INSERT INTO `tbl_user` (`user_id`, `employee_id`, `user_name`, `user_password`, `user_created`) VALUES
-(3, 1, 'stockclerk', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2025-03-02 15:47:30'),
-(4, 2, 'cashier', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2025-03-03 02:33:05');
-
---
 -- Indexes for dumped tables
 --
 
@@ -401,7 +391,7 @@ INSERT INTO `tbl_user` (`user_id`, `employee_id`, `user_name`, `user_password`, 
 ALTER TABLE `tbl_back_order_list`
   ADD PRIMARY KEY (`back_order_id`),
   ADD KEY `purchase_item_id` (`purchase_item_id`),
-  ADD KEY `stock_clerk_id` (`stock_clerk_id`);
+  ADD KEY `employee_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_categories`
@@ -429,7 +419,7 @@ ALTER TABLE `tbl_ingredient_usage`
   ADD PRIMARY KEY (`usage_id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `raw_ingredient_id` (`raw_ingredient_id`),
-  ADD KEY `stock_clerk_id` (`stock_clerk_id`);
+  ADD KEY `employee_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_jobs`
@@ -465,8 +455,8 @@ ALTER TABLE `tbl_pos_order_items`
 --
 ALTER TABLE `tbl_products`
   ADD PRIMARY KEY (`product_id`),
-  ADD KEY `product_category_id` (`category_id`),
-  ADD KEY `stock_clerk_id` (`employee_id`);
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `employee_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_purchase_items`
@@ -475,8 +465,7 @@ ALTER TABLE `tbl_purchase_items`
   ADD PRIMARY KEY (`purchase_item_id`),
   ADD KEY `purchase_order_id` (`purchase_order_id`),
   ADD KEY `raw_ingredient_id` (`raw_ingredient_id`),
-  ADD KEY `product_id` (`product_id`),
-  ADD KEY `stock_clerk_id` (`employee_id`);
+  ADD KEY `employee_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_purchase_order_list`
@@ -484,16 +473,16 @@ ALTER TABLE `tbl_purchase_items`
 ALTER TABLE `tbl_purchase_order_list`
   ADD PRIMARY KEY (`purchase_order_id`),
   ADD KEY `supplier_id` (`supplier_id`),
-  ADD KEY `stock_clerk_id` (`employee_id`);
+  ADD KEY `employee_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_raw_ingredients`
 --
 ALTER TABLE `tbl_raw_ingredients`
   ADD PRIMARY KEY (`raw_ingredient_id`),
-  ADD KEY `raw_supplier_id` (`supplier_id`),
-  ADD KEY `raw_category_id` (`category_id`),
-  ADD KEY `stock_clerk_id` (`employee_id`);
+  ADD KEY `supplier_id` (`supplier_id`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `employee_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_receipts`
@@ -509,7 +498,15 @@ ALTER TABLE `tbl_receipts`
 ALTER TABLE `tbl_receiving_list`
   ADD PRIMARY KEY (`receiving_id`),
   ADD KEY `purchase_item_id` (`purchase_item_id`),
-  ADD KEY `stock_clerk_id` (`employee_id`);
+  ADD KEY `employee_id` (`employee_id`);
+
+--
+-- Indexes for table `tbl_return_list`
+--
+ALTER TABLE `tbl_return_list`
+  ADD PRIMARY KEY (`return_id`),
+  ADD KEY `purchase_item_id` (`purchase_item_id`),
+  ADD KEY `employee_id` (`employee_id`);
 
 --
 -- Indexes for table `tbl_sales`
@@ -553,7 +550,7 @@ ALTER TABLE `tbl_back_order_list`
 -- AUTO_INCREMENT for table `tbl_categories`
 --
 ALTER TABLE `tbl_categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tbl_customer`
@@ -565,7 +562,7 @@ ALTER TABLE `tbl_customer`
 -- AUTO_INCREMENT for table `tbl_employee`
 --
 ALTER TABLE `tbl_employee`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_ingredient_usage`
@@ -577,7 +574,7 @@ ALTER TABLE `tbl_ingredient_usage`
 -- AUTO_INCREMENT for table `tbl_jobs`
 --
 ALTER TABLE `tbl_jobs`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_payments`
@@ -601,7 +598,7 @@ ALTER TABLE `tbl_pos_order_items`
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_purchase_items`
@@ -619,7 +616,7 @@ ALTER TABLE `tbl_purchase_order_list`
 -- AUTO_INCREMENT for table `tbl_raw_ingredients`
 --
 ALTER TABLE `tbl_raw_ingredients`
-  MODIFY `raw_ingredient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `raw_ingredient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_receipts`
@@ -634,6 +631,12 @@ ALTER TABLE `tbl_receiving_list`
   MODIFY `receiving_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `tbl_return_list`
+--
+ALTER TABLE `tbl_return_list`
+  MODIFY `return_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_sales`
 --
 ALTER TABLE `tbl_sales`
@@ -643,7 +646,7 @@ ALTER TABLE `tbl_sales`
 -- AUTO_INCREMENT for table `tbl_suppliers`
 --
 ALTER TABLE `tbl_suppliers`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_transaction_log`
@@ -665,106 +668,112 @@ ALTER TABLE `tbl_user`
 -- Constraints for table `tbl_back_order_list`
 --
 ALTER TABLE `tbl_back_order_list`
-  ADD CONSTRAINT `tbl_back_order_list_ibfk_1` FOREIGN KEY (`purchase_item_id`) REFERENCES `tbl_purchase_items` (`purchase_item_id`),
-  ADD CONSTRAINT `tbl_back_order_list_ibfk_2` FOREIGN KEY (`stock_clerk_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `fk_back_order_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`),
+  ADD CONSTRAINT `fk_back_order_purchase_item` FOREIGN KEY (`purchase_item_id`) REFERENCES `tbl_purchase_items` (`purchase_item_id`);
 
 --
 -- Constraints for table `tbl_employee`
 --
 ALTER TABLE `tbl_employee`
-  ADD CONSTRAINT `tbl_employee_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `tbl_jobs` (`job_id`);
+  ADD CONSTRAINT `fk_employee_job` FOREIGN KEY (`job_id`) REFERENCES `tbl_jobs` (`job_id`);
 
 --
 -- Constraints for table `tbl_ingredient_usage`
 --
 ALTER TABLE `tbl_ingredient_usage`
-  ADD CONSTRAINT `tbl_ingredient_usage_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`),
-  ADD CONSTRAINT `tbl_ingredient_usage_ibfk_2` FOREIGN KEY (`raw_ingredient_id`) REFERENCES `tbl_raw_ingredients` (`raw_ingredient_id`),
-  ADD CONSTRAINT `tbl_ingredient_usage_ibfk_3` FOREIGN KEY (`stock_clerk_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `fk_ingredient_usage_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`),
+  ADD CONSTRAINT `fk_ingredient_usage_product` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`),
+  ADD CONSTRAINT `fk_ingredient_usage_raw_ingredient` FOREIGN KEY (`raw_ingredient_id`) REFERENCES `tbl_raw_ingredients` (`raw_ingredient_id`);
 
 --
 -- Constraints for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
-  ADD CONSTRAINT `tbl_payments_ibfk_1` FOREIGN KEY (`pos_order_id`) REFERENCES `tbl_pos_orders` (`pos_order_id`);
+  ADD CONSTRAINT `fk_payment_pos_order` FOREIGN KEY (`pos_order_id`) REFERENCES `tbl_pos_orders` (`pos_order_id`);
 
 --
 -- Constraints for table `tbl_pos_orders`
 --
 ALTER TABLE `tbl_pos_orders`
-  ADD CONSTRAINT `tbl_pos_orders_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`),
-  ADD CONSTRAINT `tbl_pos_orders_ibfk_2` FOREIGN KEY (`cust_id`) REFERENCES `tbl_customer` (`cust_id`);
+  ADD CONSTRAINT `fk_pos_order_customer` FOREIGN KEY (`cust_id`) REFERENCES `tbl_customer` (`cust_id`),
+  ADD CONSTRAINT `fk_pos_order_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
 
 --
 -- Constraints for table `tbl_pos_order_items`
 --
 ALTER TABLE `tbl_pos_order_items`
-  ADD CONSTRAINT `tbl_pos_order_items_ibfk_1` FOREIGN KEY (`pos_order_id`) REFERENCES `tbl_pos_orders` (`pos_order_id`),
-  ADD CONSTRAINT `tbl_pos_order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`);
+  ADD CONSTRAINT `fk_pos_order_item_order` FOREIGN KEY (`pos_order_id`) REFERENCES `tbl_pos_orders` (`pos_order_id`),
+  ADD CONSTRAINT `fk_pos_order_item_product` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`);
 
 --
 -- Constraints for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  ADD CONSTRAINT `tbl_products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `tbl_categories` (`category_id`),
-  ADD CONSTRAINT `tbl_products_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `fk_product_category` FOREIGN KEY (`category_id`) REFERENCES `tbl_categories` (`category_id`),
+  ADD CONSTRAINT `fk_product_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
 
 --
 -- Constraints for table `tbl_purchase_items`
 --
 ALTER TABLE `tbl_purchase_items`
-  ADD CONSTRAINT `tbl_purchase_items_ibfk_1` FOREIGN KEY (`purchase_order_id`) REFERENCES `tbl_purchase_order_list` (`purchase_order_id`),
-  ADD CONSTRAINT `tbl_purchase_items_ibfk_2` FOREIGN KEY (`raw_ingredient_id`) REFERENCES `tbl_raw_ingredients` (`raw_ingredient_id`),
-  ADD CONSTRAINT `tbl_purchase_items_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`),
-  ADD CONSTRAINT `tbl_purchase_items_ibfk_4` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `fk_purchase_item_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`),
+  ADD CONSTRAINT `fk_purchase_item_order` FOREIGN KEY (`purchase_order_id`) REFERENCES `tbl_purchase_order_list` (`purchase_order_id`),
+  ADD CONSTRAINT `fk_purchase_item_raw_ingredient` FOREIGN KEY (`raw_ingredient_id`) REFERENCES `tbl_raw_ingredients` (`raw_ingredient_id`);
 
 --
 -- Constraints for table `tbl_purchase_order_list`
 --
 ALTER TABLE `tbl_purchase_order_list`
-  ADD CONSTRAINT `tbl_purchase_order_list_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `tbl_suppliers` (`supplier_id`),
-  ADD CONSTRAINT `tbl_purchase_order_list_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `fk_purchase_order_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`),
+  ADD CONSTRAINT `fk_purchase_order_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `tbl_suppliers` (`supplier_id`);
 
 --
 -- Constraints for table `tbl_raw_ingredients`
 --
 ALTER TABLE `tbl_raw_ingredients`
-  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `tbl_suppliers` (`supplier_id`),
-  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `tbl_categories` (`category_id`),
-  ADD CONSTRAINT `tbl_raw_ingredients_ibfk_3` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `fk_raw_ingredient_category` FOREIGN KEY (`category_id`) REFERENCES `tbl_categories` (`category_id`),
+  ADD CONSTRAINT `fk_raw_ingredient_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`),
+  ADD CONSTRAINT `fk_raw_ingredient_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `tbl_suppliers` (`supplier_id`);
 
 --
 -- Constraints for table `tbl_receipts`
 --
 ALTER TABLE `tbl_receipts`
-  ADD CONSTRAINT `tbl_receipts_ibfk_1` FOREIGN KEY (`pos_order_id`) REFERENCES `tbl_pos_orders` (`pos_order_id`),
-  ADD CONSTRAINT `tbl_receipts_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `fk_receipt_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`),
+  ADD CONSTRAINT `fk_receipt_pos_order` FOREIGN KEY (`pos_order_id`) REFERENCES `tbl_pos_orders` (`pos_order_id`);
 
 --
 -- Constraints for table `tbl_receiving_list`
 --
 ALTER TABLE `tbl_receiving_list`
-  ADD CONSTRAINT `tbl_receiving_list_ibfk_1` FOREIGN KEY (`purchase_item_id`) REFERENCES `tbl_purchase_items` (`purchase_item_id`),
-  ADD CONSTRAINT `tbl_receiving_list_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `fk_receiving_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`),
+  ADD CONSTRAINT `fk_receiving_purchase_item` FOREIGN KEY (`purchase_item_id`) REFERENCES `tbl_purchase_items` (`purchase_item_id`);
+
+--
+-- Constraints for table `tbl_return_list`
+--
+ALTER TABLE `tbl_return_list`
+  ADD CONSTRAINT `fk_return_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_return_purchase_item` FOREIGN KEY (`purchase_item_id`) REFERENCES `tbl_purchase_items` (`purchase_item_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tbl_sales`
 --
 ALTER TABLE `tbl_sales`
-  ADD CONSTRAINT `tbl_sales_ibfk_1` FOREIGN KEY (`receipt_id`) REFERENCES `tbl_receipts` (`receipt_id`),
-  ADD CONSTRAINT `tbl_sales_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `fk_sale_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`),
+  ADD CONSTRAINT `fk_sale_receipt` FOREIGN KEY (`receipt_id`) REFERENCES `tbl_receipts` (`receipt_id`);
 
 --
 -- Constraints for table `tbl_transaction_log`
 --
 ALTER TABLE `tbl_transaction_log`
-  ADD CONSTRAINT `tbl_transaction_log_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `tbl_payments` (`payment_id`);
+  ADD CONSTRAINT `fk_transaction_log_payment` FOREIGN KEY (`payment_id`) REFERENCES `tbl_payments` (`payment_id`);
 
 --
 -- Constraints for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  ADD CONSTRAINT `tbl_user_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
+  ADD CONSTRAINT `fk_user_employee` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

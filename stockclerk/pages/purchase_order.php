@@ -3,7 +3,7 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 <div class="container my-7" style="max-width: 100%; width: 120%;">
-    <h1 class="text-left">Purchase Order Management</h1>
+    <h4 class="text-left">Purchase Order Management</h4>
     <br>
 
     <div class="row mb-4">

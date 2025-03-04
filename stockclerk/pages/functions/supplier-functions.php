@@ -43,4 +43,5 @@ if (isset($_POST['delete'])) {
     echo "<script>alert('Deleted successfully'); window.location.href = 'index_admin.php?page=suppliers';</script>";
     exit; // Stop further script execution after redirection
 }
+
 ?>

@@ -5,7 +5,7 @@ include 'functions/pagination.php';
 ?>
 
 <div class="container my-7" style="max-width: 100%; width: 120%;">
-    <h1 class="text-left">Category Management</h1>
+    <h4 class="text-left">Category Management</h4>
     <br>
 
     <div class="row mb-4 align-items-center">
