@@ -1,6 +1,6 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
-    <a href="index_admin.php" class="app-brand-link">
+    <a href="index_cashier.php" class="app-brand-link">
       <span class="app-brand-text demo menu-text fw-bolder ms-2">DASHBOARD</span>
     </a>
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -13,7 +13,7 @@
   <ul class="menu-inner py-1">
     <!-- Dashboard -->
     <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'dashboard') ? 'active' : ''; ?>">
-      <a href="index_admin.php?page=dashboard" class="menu-link">
+      <a href="index_cashier.php?page=dashboard" class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
         <div>Dashboard</div>
       </a>
@@ -33,43 +33,43 @@
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'pos') ? 'active' : ''; ?>">
           <a href="index_cashier.php?page=pos" class="menu-link">
             <i class="menu-icon tf-icons bx bx-folder"></i>
-            <div>Pos</div>
+            <div>Point of Sale</div>
           </a>
         </li>
-        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'products') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=products" class="menu-link">
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'transaction') ? 'active' : ''; ?>">
+          <a href="index_cashier.php?page=transaction" class="menu-link">
             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-            <div>Products</div>
+            <div>Transactions</div>
           </a>
         </li>
-        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'raw_ingredients') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=raw_ingredients" class="menu-link">
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'order') ? 'active' : ''; ?>">
+          <a href="index_cashier.php?page=order" class="menu-link">
             <i class="menu-icon tf-icons bx bx-food-menu"></i>
-            <div>Raw Ingredients</div>
+            <div>Orders</div>
           </a>
         </li>
-        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'suppliers') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=suppliers" class="menu-link">
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'reciept') ? 'active' : ''; ?>">
+          <a href="index_cashier.php?page=reciept" class="menu-link">
             <i class="menu-icon tf-icons bx bx-store-alt"></i>
-            <div>Suppliers</div>
+            <div>Reciept</div>
           </a>
         </li>
-        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'purchase_orders') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=purchase_orders" class="menu-link">
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'payments') ? 'active' : ''; ?>">
+          <a href="index_cashier.php?page=payments" class="menu-link">
             <i class="menu-icon tf-icons bx bx-cart"></i>
-            <div>Purchase Orders</div>
+            <div>Payments</div>
           </a>
         </li>
-        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'receiving_list') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=receiving_list" class="menu-link">
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'customers') ? 'active' : ''; ?>">
+          <a href="index_cashier.php?page=customers" class="menu-link">
             <i class="menu-icon tf-icons bx bx-package"></i>
-            <div>Receiving List</div>
+            <div>Customers</div>
           </a>
         </li>
-        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'back_orders') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=back_orders" class="menu-link">
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'inventory') ? 'active' : ''; ?>">
+          <a href="index_cashier.php?page=inventory" class="menu-link">
             <i class="menu-icon tf-icons bx bx-arrow-back"></i>
-            <div>Back Orders</div>
+            <div>Inventory Lookup</div>
           </a>
         </li>
       </ul>
@@ -84,37 +84,37 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'inventory_reports') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=inventory_reports" class="menu-link">
+          <a href="index_cashier.php?page=inventory_reports" class="menu-link">
             <i class="menu-icon tf-icons bx bx-line-chart"></i>
             <div>Inventory Reports</div>
           </a>
         </li>
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'sales_reports') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=sales_reports" class="menu-link">
+          <a href="index_cashier.php?page=sales_reports" class="menu-link">
             <i class="menu-icon tf-icons bx bx-trending-up"></i>
             <div>Sales Reports</div>
           </a>
         </li>
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'order_reports') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=order_reports" class="menu-link">
+          <a href="index_cashier.php?page=order_reports" class="menu-link">
             <i class="menu-icon tf-icons bx bx-receipt"></i>
             <div>Order Reports</div>
           </a>
         </li>
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'supplier_reports') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=supplier_reports" class="menu-link">
+          <a href="index_cashier.php?page=supplier_reports" class="menu-link">
             <i class="menu-icon tf-icons bx bx-package"></i>
             <div>Supplier Reports</div>
           </a>
         </li>
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'back_order_reports') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=back_order_reports" class="menu-link">
+          <a href="index_cashier.php?page=back_order_reports" class="menu-link">
             <i class="menu-icon tf-icons bx bx-arrow-back"></i>
             <div>Back Order Reports</div>
           </a>
         </li>
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'raw_ingredients_reports') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=raw_ingredients_reports" class="menu-link">
+          <a href="index_cashier.php?page=raw_ingredients_reports" class="menu-link">
             <i class="menu-icon tf-icons bx bx-food-menu"></i>
             <div>Ingredients Reports</div>
           </a>

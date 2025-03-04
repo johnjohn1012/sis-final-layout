@@ -34,23 +34,29 @@
                       case 'pos':
                         include 'pages/pos.php'; // Include the about page content
                           break;
-                      case 'suppliers':
-                        include 'pages/supplier.php'; // Include the about page content
+                      case 'customers':
+                        include 'pages/customers.php'; // Include the about page content
                           break;
 
-                          case 'products':
-                            include 'pages/product.php'; // Include the about page content
+                          case 'inventory':
+                            include 'pages/inventory.php'; // Include the about page content
                               break;
 
 
-                              case 'ingredients':
-                                include 'pages/ingredients.php'; // Include the about page content
+                              case 'order':
+                                include 'pages/order.php'; // Include the about page content
                                   break;
 
                                   
-                              case 'purchase_orders':
-                                include 'pages/purchase_order.php'; // Include the about page content
+                              case 'payments':
+                                include 'pages/payments.php'; // Include the about page content
                                   break;
+                              case 'reciept':
+                                include 'pages/reciepts.php'; // Include about reciept content
+                                  break;
+                              case 'transaction':
+                                include 'pages/transaction.php'; // Include about transactions
+                                break;
                       default:
                           include 'pages/404.php'; // Include a 404 page if no match
                   }

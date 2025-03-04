@@ -184,7 +184,12 @@ if (isset($_POST['btnlogin'])) {
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then(function() {
+<<<<<<< HEAD
                             window.location = 'http://localhost/sis-final-layout/cashier/index_admin.php';
+=======
+                            window.location = 'http://localhost/sis-final-layout/cashier/index_cashier.php';
+                        
+>>>>>>> 8b1b076 (Updated cashier side as of 3/4/2025 3:11PM)
                         });
                       </script>";
                 exit();

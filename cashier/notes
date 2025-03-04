@@ -1,0 +1,9 @@
+Point of Sale (POS) – Main sales processing page.
+Dashboard – Overview of sales, transactions, and performance metrics.
+Transactions – View completed sales, transaction details, and payment history (tbl_sales, tbl_transaction_log).
+Orders – Manage customer orders, including pending and completed orders (tbl_pos_orders, tbl_pos_order_items).
+Receipts – Access and reprint customer receipts (tbl_receipts).
+Payments – Track payments, refunds, and different payment methods (tbl_payments).
+Customers – Manage customer details and purchase history (tbl_customer).
+Inventory Lookup – Check product availability without editing stock (tbl_products, tbl_raw_ingredients).
+Back Orders – View and track pending back orders (tbl_back_order_list).
