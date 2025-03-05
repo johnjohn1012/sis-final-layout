@@ -44,14 +44,14 @@
             <thead>
                 <tr>
                     <th>Category</th>
-                    <th>Product Name</th>
+                    <th>Product_Name</th>
                     <th>Image</th>
-                    <th>Selling Price</th>
+                    <th>Selling_Price</th>
                     <th>Stock</th>
-                    <th>Restock Level</th>
-                    <th>Created At</th>
+                    <th>Restock_Level</th>
+                    <th>Created_At</th>
                     <th>Employee</th>
-                    <th>Actions</th>
+                    <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -75,13 +75,13 @@
                             <div class="btn-group">
                                 <!-- View Button -->
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewProductModal" 
-                                    onclick="viewProduct(<?php echo htmlspecialchars(json_encode($product)); ?>)">
+                                    onclick="viewProduct(<?php echo htmlspecialchars(json_encode($product)); ?>)" style="margin-right: 5px;">
                                     View
                                 </button>
 
                                 <!-- Edit Button -->
                                 <button onclick="openEditForm(<?php echo htmlspecialchars(json_encode($product)); ?>)" 
-                                    class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProductModal">
+                                    class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProductModal" style="margin-right: 5px;">
                                     Edit
                                 </button>
 
@@ -90,10 +90,9 @@
                                     onclick="setDeleteData(<?php echo $product['product_id']; ?>, '<?php echo htmlspecialchars(addslashes($product['product_name'])); ?>')">
                                     Delete
                                 </button> -->
-
-                                
                             </div>
                         </td>
+
                     </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -127,27 +126,30 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-function viewProduct(product) {
-    document.getElementById('view-product-name').textContent = product.product_name;
-    document.getElementById('view-product-selling-price').textContent = product.product_selling_price;
-    document.getElementById('view-product-quantity').textContent = product.product_quantity;
-    document.getElementById('view-product-restock-qty').textContent = product.product_restock_qty;
-    document.getElementById('view-category-name').textContent = product.category_name;
-    document.getElementById('view-employee-name').textContent = product.employee_name;
-    
-    // Corrected image path
-    const imgElement = document.getElementById('view-product-image');
-    if (product.product_image) {
-        imgElement.src = "uploads/products/" + product.product_image;
+function openEditForm(product_id,current_image,product_name, product_selling_price, product_quantity, product_restock_qty, category_id, employee_id, product_image) {
+    // Populate input fields
+    document.getElementById('edit-product-id').value = product_id;
+    document.getElementById('edit-edit-current-image').value = current_image;
+    document.getElementById('edit-product-name').value = product_name;
+    document.getElementById('edit-product-selling-price').value = product_selling_price;
+    document.getElementById('edit-product-quantity').value = product_quantity;
+    document.getElementById('edit-product-restock-qty').value = product_restock_qty;
+
+    // Set selected values for dropdowns
+    document.getElementById('edit-category-id').value = category_id;
+    document.getElementById('edit-employee-id').value = employee_id;
+
+    // Update product image preview
+    const imgElement = document.getElementById('edit-product-image');
+    if (product_image) {
+        imgElement.src = "uploads/products/" + product_image;
         imgElement.style.display = 'block';
     } else {
         imgElement.style.display = 'none';
     }
-}
 
-    function setDeleteData(id, name) {
-    document.getElementById('delete-product-id').value = id;
-    document.getElementById('delete-product-name').textContent = name;
+    // Show the modal
+    $('#editProductModal').modal('show');
 }
 
     function viewProduct(product) {
@@ -157,6 +159,21 @@ function viewProduct(product) {
         document.getElementById('view-product-restock-qty').textContent = product.product_restock_qty;
         document.getElementById('view-category-name').textContent = product.category_name;
         document.getElementById('view-employee-name').textContent = product.employee_name;
-        document.getElementById('view-product-image').src = "uploads/" + product.product_image;
+        
+        // Corrected image path
+        const imgElement = document.getElementById('view-product-image');
+        if (product.product_image) {
+            imgElement.src = "uploads/products/" + product.product_image;
+            imgElement.style.display = 'block';
+        } else {
+            imgElement.style.display = 'none';
+        }
     }
+
+
+function setDeleteData(id, name) {
+    document.getElementById('delete-product-id').value = id;
+    document.getElementById('delete-product-name').textContent = name;
+}
+
 </script>

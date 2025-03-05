@@ -43,10 +43,13 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Purchase Order ID</th>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
                     <th>Supplier Name</th>
                     <th>Order Date</th>
                     <th>Expected Delivery</th>
+                    <th>Supplier Name</th>
                     <th>Status</th>
                     <th>Employee Name</th>
                     <th>Actions</th>

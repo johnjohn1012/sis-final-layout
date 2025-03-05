@@ -47,6 +47,11 @@
                                 include 'pages/ingredients.php'; // Include the about page content
                                   break;
 
+                                       
+                              case 'item_list':
+                                include 'pages/item_list.php'; // Include the about page content
+                                  break;
+
                                   
                               case 'purchase_orders':
                                 include 'pages/purchase_order.php'; // Include the about page content

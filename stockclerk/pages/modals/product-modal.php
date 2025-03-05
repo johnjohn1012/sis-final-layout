@@ -10,6 +10,23 @@
             </div>
             <div class="modal-body">
                 <form action="index_admin.php?page=products" method="POST" enctype="multipart/form-data">
+
+                        <!-- Category Selection -->
+                        <div class="form-group">
+                        <label for="category_id">Category</label>
+                        <select name="category_id" id="category_id" class="form-control" required>
+                            <option value="">Select Category</option>
+                            <?php 
+                            // Reset pointer and loop through categories again
+                            mysqli_data_seek($category_result, 0);
+                            while($row = mysqli_fetch_assoc($category_result)): ?>
+                                <option value="<?= $row['category_id']; ?>">
+                                    <?= htmlspecialchars($row['category_name']); ?>
+                                </option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
+
                     <!-- Product Name -->
                     <div class="form-group">
                         <label for="product_name">Product Name</label>
@@ -45,22 +62,7 @@
                                class="form-control" min="0" value="0" required>
                     </div>
 
-                    <!-- Category Selection -->
-                    <div class="form-group">
-                        <label for="category_id">Category</label>
-                        <select name="category_id" id="category_id" class="form-control" required>
-                            <option value="">Select Category</option>
-                            <?php 
-                            // Reset pointer and loop through categories again
-                            mysqli_data_seek($category_result, 0);
-                            while($row = mysqli_fetch_assoc($category_result)): ?>
-                                <option value="<?= $row['category_id']; ?>">
-                                    <?= htmlspecialchars($row['category_name']); ?>
-                                </option>
-                            <?php endwhile; ?>
-                        </select>
-                    </div>
-
+            
                     <!-- Employee Selection -->
                     <div class="form-group">
                         <label for="employee_id">Responsible Employee</label>
@@ -88,7 +90,7 @@
 </div>
 
 <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
@@ -101,75 +103,89 @@
                     <input type="hidden" name="product_id" id="edit-product-id">
                     
                     <!-- Current Image Preview -->
-                    <div class="form-group">
-                        <label>Current Image</label>
-                        <img id="edit-current-image" src="" class="img-thumbnail" style="max-width: 200px; display: block;">
+                    <div class="form-group text-center mb-4">
+                        <label class="d-block mb-2">Current Image</label>
+                        <img id="edit-current-image" src="" class="img-fluid img-thumbnail" style="max-width: 200px; display: none;">
                         <small class="form-text text-muted">Current product image</small>
                     </div>
 
-                    <!-- Product Name -->
-                    <div class="form-group">
-                        <label for="edit-product-name">Product Name</label>
-                        <input type="text" name="product_name" id="edit-product-name" class="form-control" required>
+                    <div class="row">
+                        <!-- Product Name -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="edit-product-name">Product Name</label>
+                                <input type="text" name="product_name" id="edit-product-name" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Selling Price -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="edit-product-selling-price">Selling Price</label>
+                                <input type="number" step="0.01" min="0" name="product_selling_price" 
+                                    id="edit-product-selling-price" class="form-control" required>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Selling Price -->
-                    <div class="form-group">
-                        <label for="edit-product-selling-price">Selling Price</label>
-                        <input type="number" step="0.01" min="0" name="product_selling_price" 
-                               id="edit-product-selling-price" class="form-control" required>
+                    <div class="row">
+                        <!-- Stock Quantity -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="edit-product-quantity">Stock Quantity</label>
+                                <input type="number" min="0" name="product_quantity" 
+                                    id="edit-product-quantity" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Restock Level -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="edit-product-restock-qty">Restock Level</label>
+                                <input type="number" min="0" name="product_restock_qty" 
+                                    id="edit-product-restock-qty" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Category Selection -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="edit-category-id">Category</label>
+                                <select name="category_id" id="edit-category-id" class="form-control" required>
+                                    <?php mysqli_data_seek($category_result, 0); ?>
+                                    <?php while ($row = mysqli_fetch_assoc($category_result)): ?>
+                                        <option value="<?= htmlspecialchars($row['category_id']) ?>">
+                                            <?= htmlspecialchars($row['category_name']) ?>
+                                        </option>
+                                    <?php endwhile; ?>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Employee Selection -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="edit-employee-id">Responsible Employee</label>
+                                <select name="employee_id" id="edit-employee-id" class="form-control" required>
+                                    <?php mysqli_data_seek($employee_result, 0); ?>
+                                    <?php while ($row = mysqli_fetch_assoc($employee_result)): ?>
+                                        <option value="<?= htmlspecialchars($row['employee_id']) ?>">
+                                            <?= htmlspecialchars($row['employee_name']) ?>
+                                        </option>
+                                    <?php endwhile; ?>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- New Image Upload -->
                     <div class="form-group">
                         <label for="edit-product-image">New Image (optional)</label>
                         <input type="file" name="product_image" id="edit-product-image" 
-                               class="form-control-file" accept="image/*">
-                        <small class="form-text text-muted">Allowed formats: JPG, PNG, GIF</small>
-                    </div>
-
-                    <!-- Stock Quantity -->
-                    <div class="form-group">
-                        <label for="edit-product-quantity">Stock Quantity</label>
-                        <input type="number" min="0" name="product_quantity" 
-                               id="edit-product-quantity" class="form-control" required>
-                    </div>
-
-                    <!-- Restock Level -->
-                    <div class="form-group">
-                        <label for="edit-product-restock-qty">Restock Level</label>
-                        <input type="number" min="0" name="product_restock_qty" 
-                               id="edit-product-restock-qty" class="form-control" required>
-                    </div>
-
-                    <!-- Category Selection -->
-                    <div class="form-group">
-                        <label for="edit-category-id">Category</label>
-                        <select name="category_id" id="edit-category-id" class="form-control" required>
-                            <?php
-                            mysqli_data_seek($category_result, 0);
-                            while ($row = mysqli_fetch_assoc($category_result)):
-                            ?>
-                                <option value="<?= htmlspecialchars($row['category_id']) ?>">
-                                    <?= htmlspecialchars($row['category_name']) ?>
-                                </option>
-                            <?php endwhile; ?>
-                        </select>
-                    </div>
-
-                    <!-- Employee Selection -->
-                    <div class="form-group">
-                        <label for="edit-employee-id">Responsible Employee</label>
-                        <select name="employee_id" id="edit-employee-id" class="form-control" required>
-                            <?php
-                            mysqli_data_seek($employee_result, 0);
-                            while ($row = mysqli_fetch_assoc($employee_result)):
-                            ?>
-                                <option value="<?= htmlspecialchars($row['employee_id']) ?>">
-                                    <?= htmlspecialchars($row['employee_name']) ?>
-                                </option>
-                            <?php endwhile; ?>
-                        </select>
+                            class="form-control-file" accept="image/*">
+                        <small class="form-text text-muted">Allowed formats: JPG, PNG, GIF | Max size: 2MB</small>
                     </div>
 
                     <div class="modal-footer">

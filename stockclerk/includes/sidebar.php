@@ -27,7 +27,7 @@
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Inventory Management</span></li>
 
     <!-- Stock Management Dropdown -->
-    <li class="menu-item <?php echo (isset($_GET['page']) && in_array($_GET['page'], ['category', 'products', 'ingredients', 'suppliers', 'purchase_orders', 'receiving_list', 'back_orders','return_orders'])) ? 'open' : ''; ?>">
+    <li class="menu-item <?php echo (isset($_GET['page']) && in_array($_GET['page'], ['category', 'products', 'ingredients', 'suppliers','item_list','purchase_orders', 'receiving_list', 'back_orders','return_orders'])) ? 'open' : ''; ?>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-package"></i>
         <div>Inventory Management</div>
@@ -40,6 +40,21 @@
             <div>Category</div>
           </a>
         </li>
+      
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'suppliers') ? 'active' : ''; ?>">
+          <a href="index_admin.php?page=suppliers" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-store-alt"></i>
+            <div>Suppliers List</div>
+          </a>
+        </li>
+
+        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'item_list') ? 'active' : ''; ?>">
+          <a href="index_admin.php?page=item_list" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-store-alt"></i>
+            <div>Item List</div>
+          </a>
+        </li>
+
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'products') ? 'active' : ''; ?>">
           <a href="index_admin.php?page=products" class="menu-link">
             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
@@ -47,13 +62,6 @@
           </a>
         </li>
 
-        <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'suppliers') ? 'active' : ''; ?>">
-          <a href="index_admin.php?page=suppliers" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-store-alt"></i>
-            <div>Suppliers List</div>
-          </a>
-        </li>
-        
         <li class="menu-item <?php echo (isset($_GET['page']) && $_GET['page'] == 'ingredients') ? 'active' : ''; ?>">
           <a href="index_admin.php?page=ingredients" class="menu-link">
             <i class="menu-icon tf-icons bx bx-food-menu"></i>

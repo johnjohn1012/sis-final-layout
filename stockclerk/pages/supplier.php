@@ -43,13 +43,13 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Supplier Name</th>
-                    <th>Contact Person</th>
+                    <th>Supplier_Name</th>
+                    <th>Contact_Person</th>
                     <th>Address</th>
                     <th>Phone</th>
                     <th>Email</th>
                     <th>Created At</th>
-                    <th>Actions</th>
+                    <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,10 +61,24 @@
                         <td><?php echo $supplier['phone']; ?></td>
                         <td><?php echo $supplier['email']; ?></td>
                         <td><?php echo $supplier['created_at']; ?></td>
-                        <td>
-                            <button onclick="openEditForm(<?php echo $supplier['supplier_id']; ?>, '<?php echo $supplier['supplier_name']; ?>', '<?php echo $supplier['contact_person']; ?>', '<?php echo $supplier['address']; ?>', '<?php echo $supplier['phone']; ?>', '<?php echo $supplier['email']; ?>')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editSupplierModal">Edit</button>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSupplierModal" onclick="setDeleteData(<?php echo $supplier['supplier_id']; ?>, '<?php echo $supplier['supplier_name']; ?>')">Delete</button>
-                        </td>
+                        <td class="text-center">
+                        <!-- View Button -->
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewSupplierModal" 
+                            onclick="viewSupplier(<?php echo $supplier['supplier_id']; ?>, '<?php echo $supplier['supplier_name']; ?>', '<?php echo $supplier['contact_person']; ?>', '<?php echo $supplier['address']; ?>', '<?php echo $supplier['phone']; ?>', '<?php echo $supplier['email']; ?>')">
+                            View
+                        </button>
+
+                        <!-- Edit Button -->
+                        <button onclick="openEditForm(<?php echo $supplier['supplier_id']; ?>, '<?php echo $supplier['supplier_name']; ?>', '<?php echo $supplier['contact_person']; ?>', '<?php echo $supplier['address']; ?>', '<?php echo $supplier['phone']; ?>', '<?php echo $supplier['email']; ?>')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editSupplierModal">
+                            Edit
+                        </button>
+
+                        <!-- Delete Button -->
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSupplierModal" onclick="setDeleteData(<?php echo $supplier['supplier_id']; ?>, '<?php echo $supplier['supplier_name']; ?>')">
+                            Delete
+                        </button>
+                         </td>
+
                     </tr>
                 <?php endwhile; ?>
             </tbody>

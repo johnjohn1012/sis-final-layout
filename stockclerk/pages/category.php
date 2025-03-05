@@ -65,10 +65,10 @@ include 'functions/pagination.php';
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Category Name</th>
+                    <th>Category_Name</th>
                     <th>Description</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
+                    <th>Created_At</th>
+                    <th>Updated_At</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -80,17 +80,20 @@ include 'functions/pagination.php';
                             <td><?= htmlspecialchars($category['category_description']) ?></td>
                             <td><?= htmlspecialchars($category['created_at']) ?></td>
                             <td><?= htmlspecialchars($category['updated_at']) ?></td>
+                            
                             <td class="text-center">
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-info btn-sm" 
                                         data-toggle="modal" data-target="#viewCategoryModal"
-                                        onclick="viewCategory(<?= htmlspecialchars(json_encode($category), ENT_QUOTES) ?>)">
+                                        onclick="viewCategory(<?= htmlspecialchars(json_encode($category), ENT_QUOTES) ?>)"
+                                        style="margin-right: 5px;">
                                         View
                                     </button>
 
                                     <button class="btn btn-warning btn-sm"
                                         data-toggle="modal" data-target="#editCategoryModal"
-                                        onclick="openEditForm(<?= htmlspecialchars(json_encode($category), ENT_QUOTES) ?>)">
+                                        onclick="openEditForm(<?= htmlspecialchars(json_encode($category), ENT_QUOTES) ?>)"
+                                        style="margin-right: 5px;">
                                         Edit
                                     </button>
 
@@ -101,6 +104,7 @@ include 'functions/pagination.php';
                                     </button>
                                 </div>
                             </td>
+
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
